@@ -244,3 +244,88 @@ const person = {
     return `Hello! My name is ${this.name}.`;
   }
 };
+
+//Use class syntax to define a constructor function
+//new syntax to help create objects, using the keyword 'class' - not a full fledged oop like in Java/Python/Ruby
+//in ES5 we define a constructor function, and use the new keyword to instantiate an object
+var SpaceShuttle = function(targetPlanet){
+  this.targetPlanet = targetPlanet;
+}
+var zeus = new SpaceShuttle('Jupiter');
+//in ES6
+class SpaceShuttle {
+  constructor(targetPlanet){
+    this.targetPlanet = targetPlanet;
+  }
+}
+const zeus = new SpaceShuttle('Jupiter');
+
+//Use getters(obtaining a value from an object) and setters(setting value of an object) to control access to an object
+class Book {
+  constructor(author) {
+    this._author = author;
+  }
+  // getter
+  get writer(){
+    return this._author;
+  }
+  // setter
+  set writer(updatedAuthor){
+    this._author = updatedAuthor;
+  }
+}
+const lol = new Book('anonymous');
+console.log(lol.writer);  // anonymous
+lol.writer = 'wut';
+console.log(lol.writer);  // wut
+
+//another example
+function makeClass() {
+  "use strict";
+
+  class Thermostat{
+    constructor(farenheit){
+      this.farenheit = farenheit;
+    }
+    get temperature(){
+      return 5 / 9 * (this.farenheit - 32);
+    }
+    set temperature(celsius){
+      this.farenheit = celsius * 9.0 / 5 + 32;
+    }
+  }
+  return Thermostat;
+}
+const Thermostat = makeClass();
+const thermos = new Thermostat(76); // setting in Fahrenheit scale
+let temp = thermos.temperature; // 24.44 in C
+thermos.temperature = 26;
+temp = thermos.temperature; // 26 in C
+
+
+Import and Require
+//in the past you had to require() full files even if you needed just a certain part from those external resources
+//in ES6 we can use import and choose which parts of a module/file to load, saving time/memory
+
+Consider the following example. Imagine that math_array_functions has about 20 functions, but I only need one, countItems.
+In my current file. The old require() approach would force me to bring in all 20 functions.
+I can bring in just the desired function, like so:
+
+import { countItems } from "math_array_functions"
+
+
+Export
+
+//in order for import to work, we must utilize export
+const capitalizeString = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+export { capitalizeString } //How to export functions.
+export const foo = "bar"; //How to export variables.
+
+//can also merge exports into one line
+const capitalizeString = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+const foo = "bar";
+export { capitalizeString, foo }
