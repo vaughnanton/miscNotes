@@ -329,3 +329,27 @@ const capitalizeString = (string) => {
 }
 const foo = "bar";
 export { capitalizeString, foo }
+
+
+Import *
+
+//used to import all contents into the current file
+import * as myMathModule from "math_functions";
+myMathModule.add(2,3);
+myMathModule.subtract(5,3
+//broken down into...
+import * as object_with_name_of_your_choice from "file_path_goes_here"
+object_with_name_of_your_choice.imported_function
+
+Export Default
+//export default is used if only one value is beoing exported from a file
+//also used to create a fallback value for a file or module
+//can't use export default with var let or const
+export default function add(x,y) {
+  return x + y;
+}
+
+Import a Default Export
+//you enter the function name without curly braces
+import add from "math_function";
+add(5,4); //will return 9
