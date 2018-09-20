@@ -58,3 +58,49 @@ json = [{"id":0,"imageLink":"https://s3.amazonaws.com/freecodecamp/funny-cat.jpg
 
 console.log(json[0].altText);
 //prints "A white cat wearing a green helmet shaped melon on its head"
+
+
+//Convert JSON Data into HTML (forr cat array case)
+var html = "";
+json.forEach(function(val){
+  var keys = Object.keys(val);
+  html += "<div class = 'cat'>";
+  keys.forEach(function(key){
+    html += "<strong>" + key + "</strong>: " + val[key] + "<br>";
+  });
+  html += "</div><br>";
+});
+
+//Render images from data sources
+//can use imageLink property to display image in img element
+html += "<img src = '" + val.imageLink + "' " + "alt='" + val.altText + "'>";
+
+//Pre-filter JSON to get the Data you need
+//if you don't want to render every cat photo you can for example filter out cat whose 'id' is 1
+json = json.filter(function(val){
+  return (val.id !== 1);
+})
+
+//Get Geolocation data to find a User's GPS Coordinates
+//every browser has a built in navigator that can give this info
+if (navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(function(position) {
+    document.getElementById('data').innerHTML="latitude: "+ position.coords.latitude + "<br>longitude: " + position.coords.longitude;
+  });
+}
+
+//Post Data with the JS XMLHttpRequest method
+//you can also send data to an external resource, as long as it supports AJAX requests and you know the URL
+req=new XMLHttpRequest();
+//open method initializes request as POST to given URL and uses true to make it asynchronous
+req.open("POST",url,true);
+//setRequestHeader sets the value of HTTP request header, which contains info about sender/request
+req.setRequestHeader('Content-Type','text/plain');
+//event listener handles change in the state of the request, readystate of 4 means operation is complete, status 200 means it was successful request
+req.onreadystatechange=function(){
+  if(req.readyState==4 && req.status==200){
+    document.getElementsByClassName('message')[0].innerHTML=req.responseText;
+  }
+};
+//sends the request with userName value which was given by the user in the input field 
+req.send(userName);
