@@ -1,0 +1,9 @@
+#####Differentiate between Real DOM and Virtual DOM?
+Real DOM - updates slow, can directly update html, creates new DOM if an element updates, memory wasted
+Virtual DOM - updates faster, can't directly update html, updates the JSX if element updates, dom manipulation easy
+
+Some basic Git commands are:
+```
+git status
+git add
+git commit
