@@ -1,4 +1,4 @@
-##General React
+### General React
 
 **What is React?**
 
@@ -132,7 +132,7 @@ The virtual DOM is a JS object which is just a copy of the real DOM. It is a nod
 
 ```
 
-##React Components
+### React Components
 
 **What is meant by 'In React, everything is a component'?**
 
@@ -201,3 +201,234 @@ States are the heart of React components. States are the source of data and must
   - Props = Yes
 
 **How can you update the state of a component?**
+
+State of a component can be updated using this.setState()...example:
+
+```
+class MyComponent extends React.Component {
+  constructor() {
+    super();
+    this.state = { ,
+      name: 'Maxx',
+      id: '101'
+    }
+  }
+  render()
+    {
+      setTimeout(()=>{this.setState({name:'Jaeha', id:'222'})},2000)
+      return (              
+             <div>                  
+               <h1>Hello {this.state.name}</h1>                
+               <h2>Your Id is {this.state.id}</h2>
+             </div>
+      );
+    }
+}
+ReactDOM.render(
+  <MyComponent/>,document.getElementById('content')
+);
+```
+
+**What is arrow function in React? How is it used?**
+
+Arrow functions are a brief syntax for writing function expression. Allow to bind the context of the components properly since in ES6 auto binding is not available by default. Arrow functions are useful while working with higher order functions.
+
+Non-arrow
+```
+render() {
+  return(
+      <MyInput onChange={ this.handleChange.bind(this) } />
+    )
+}
+```
+
+Arrow
+```
+render() {
+  return(
+      <MyInput onChange{ (e) => this.handleOnChange(e) } />
+    )
+}
+```
+
+**Differentiate between stateful and stateless components.**
+
+Stateful:
+
+1. Stores info about component's state in memory
+2. Have authority to change state
+3. Contains knowledge of past, current and possible future changes in state
+4. Stateless components notifies stateful about the requirement of the state change, then stateful sends down props
+
+Stateless:
+
+1. Calculates the internal state of the components
+2. Do not have authority to change state
+3. Contains no knowledge of past, current and possible future state changes
+4. Receive props from stateful components and treat them as callback functions
+
+**What are the different phases of a React component's lifecycle?**
+
+1. Initial Rendering Phase
+  - when component is about to start its life journey and makes its way to the DOM
+2. Updating Phase
+  - once the component gets added to the DOM, it can potentially update and re-render only when a prop or state change occurs
+3. Unmounting Phase
+  - final phase of cycle, component is destroyed and removed from DOM
+
+**Explain the lifecycle methods of React components in detail.**
+
+1. componentWillMount()
+  - executed just before rendering takes place both on client and server side
+2. componentDidMount()
+  - executed on the client side only after the first render
+3. componentWillReceiveProps()
+  - invoked as soon as the props are received from the parent class and before another render is called
+4. shouldComponentUpdate()
+  - returns true or false value based on certain conditions
+  - return true if want component to update, by default it returns false
+5. componentWillUpdate()
+  - called just before rendering takes place in the DOM
+6. componentDidUpdate()
+  - called immediately after rendering takes place
+7. componentWillUnmount()
+  - called after the component is unmounted from the DOM, it is used to clear up the memory spaces
+
+**What is an event in React?**
+
+In React, events are triggered reactions to specific actions like mouse hover, mouse click, key precc, etc.
+  - Events are named using camel case instead of just using lowercase
+  - Events are passed as functions instead of strings
+The Event arguement contains a set of properties, which are specific to an event. Each event type contains its own properties and behavior which can only be accessed via its event handler.
+
+**How do you create an event in React?**
+
+```
+class Display extends React.Component({
+    show(evt) {
+      //code
+    },
+    render() {
+      //Render the div with an onclick prop (value is a function)
+      return (
+          <div onClick={this.show}>Click Me!</div>
+        );
+    }
+});
+```
+
+**What are synthetic events in React?**
+
+Synthetic events are objects which act as a cross browser wrapper around the browser's native event. They combine the behavior of different browsers into one API. This is done to make sure that the events show consistent properties across different browsers.
+
+**What are refs in React?**
+
+Refs is the short hand for References in React. It is an attribute which helps to store a reference to a particular React element or component, which will be returned by the components render config function. It is used to return references to a particular element or component returned by render(). They come in handy when we need DOM measurements or to add methods to the components.
+
+```
+class ReferenceDemo extends React.Component{
+  display() {
+    const name = this.inputDemo.value;
+    document.getElementById('disp').innerHTML = name;
+  }
+  render() {
+    return(
+        <div>
+            Name: <input type="text" ref={input => this.inputDemo = input} />
+            <button name="Click" onClick={this.display}>Click</button>            
+            <h2>Hello <span id="disp"></span> !!!</h2>
+        </div>
+      );
+  }
+}
+```
+
+**In what cases would you use refs?**
+
+- When you need to manage focus, select text or media playback
+- to trigger imperative animations
+- integrate with third-party DOM libraries
+
+**How do you modularize code in React?**
+
+By using export and import properties, they help in writing components separately in different files.
+
+```
+//ChildComponent.jsx
+
+export default class ChildComponent extends React.Component {
+  render() {
+     return (
+          <div>
+            <h1>This is a child component</h1>
+       );
+  }
+}
+
+//ParentComponent.jsx
+
+import ChildComponent from './childcomponent.js';
+class ParentComponent extends React.Component {
+  render() {
+    return(
+        <div>
+          <App />
+        </div>
+      );
+  }
+}
+```
+
+**How are forms created in React?**
+
+React forms are similar to HTML forms. In React, state is contained in the state property of the component and is only updated via setState(). Thus the elements can't directly update their state and their submission is handled by a JS function. This function has full access to the data that is entered by the user into a form.
+
+```
+handleSubmit(event) {
+  alert('A name was submitted: ' + this.state.value);
+  event.preventDefault();
+}
+
+render() {
+  return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text"  value={this.state.value} onChange={this.handleSubmit} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>    
+    );
+}
+```
+
+**List differences between controlled and uncontrolled components.**
+
+Controlled components
+- do not maintain their own state
+- data is controlled by the parent component
+- take in current values through props and notify the changes via callbacks
+
+Uncontrolled components
+- maintain their own state
+- data is controlled by the DOM
+- Refs are used to get their current values
+
+**What are higher order components(HOC)?**
+
+HOC is an advanced way of reusing component logic. It's a pattern that is derived from React's compositional nature. HOC are custom components which wrap another component within it. They can accept any dynamically provided child component but they won't modify or copy any behavior from their input components. You can say that HOC are 'pure' components.
+
+**What can you do with HOC?**
+
+- code reuse, logic and bootstrap abstraction
+- render high jacking
+- state abstraction and manipulation
+- props manipulation
+
+**What are pure components?**
+
+Pure components are the simplest/fastest components which can be written. They can replace any component which only has a render(). These components enhance the simplicity of the code and performance of the application.
+
+**What is the significance of keys in React?**
+
+Keys are used for identifying unique virtual DOM elements with their corresponding data driving the UI. They help React optimize the rendering by recycling all the existing elements in the DOM. These keys must be a unique number of string, using which React just reorders the elements instead of re-rendering them. This leads to increase in application's performance.
