@@ -432,3 +432,140 @@ Pure components are the simplest/fastest components which can be written. They c
 **What is the significance of keys in React?**
 
 Keys are used for identifying unique virtual DOM elements with their corresponding data driving the UI. They help React optimize the rendering by recycling all the existing elements in the DOM. These keys must be a unique number of string, using which React just reorders the elements instead of re-rendering them. This leads to increase in application's performance.
+
+### React Redux
+
+**What were the major problems with MVC framework?**
+
+- DOM Manipulation is expensive
+- Applications are slow and inefficient
+- There is huge memory wastage
+- Because of circular dependencies, complicated model is created around models and views
+
+**Explain Flux.**
+
+Flux is an architectural pattern which enforces uni-directional data flow. It controls derived data and enables communication between multiple components using a central store which has authority for all data. Any update in data throughout the application must occur here only. Flux provides stability to the application and reduces run-time errors.
+
+-> action -> dispatcher -> store -> view ->    as a circle
+
+**What is Redux?**
+
+Redux is a front end library. It is a predictable state container for JS applications and is used for the entire applications state management. Applications developed with Redux are easy to test and can run in different environments showing consistent behavior.
+
+**What are the three principles that Redux follows?**
+
+1. Single source of truth:
+  - The state of an entire app is stored in an object/state tree within a single store. The single state tree makes it easier to keep track of changes over time, debug, or inspect the app.
+2. Sate is read only:
+  - The only way to change the state is to trigger an action. An action is a plain JS object describing the change. Just like state is the minimal representation of the data, the action is the minimal representation to that data.
+3. Changes are made with pure functions:
+  - In order to specify how the state tree is transformed by actions, you need pure functions. Pure functions are those whose return value depends solely on the values of their arguements.
+
+**What does 'Single source of truth' mean?**
+
+Redux uses 'store' for storing the entire app's state at one place. So all the component's state are stored in the store and they receive updates from the store itself. The single state tree makes it easier to keep track of changes over time, debug, or inspect the app.
+
+**List the components of Redux.**
+
+1. Action - an object that describes what happened
+2. Reducer - a place to determine how the state will change
+3. Store - state/object tree of the entire application saved in the store
+4. View - simply displays the data provided by the store
+
+**How are actions defined in Redux?**
+
+Actions in React must have a type property that indicates the type of ACTION being performed. They must be defined as a string constant and you can add more properties as well. In Redux, actions are created using the functions called Action Creators. Below is an example of Action and Action Areator:
+
+```
+function addToDo(text) {
+  return {
+    type: ADD_TODO,
+    text
+  }
+}
+```
+
+**Explain the role of Reducer.**
+
+Reducers are pure functions which specify how the application's state changes in response to an ACTION. Reducers work by taking in the previous state and action, and then returning a new state. It determines what sort of update needs to be done based on the type of action, and then returns new values. It returns the previous state as it is, if no work needs to be done.
+
+**What is the significance of Store in Redux?**
+
+A store is a JS object which can hold the app's state and provide a few helper methods to access the state, dispatch actions, and register listeners. The entire state/object tree of an application is saved in a single store. As a result of this, Redux is very simple and predictable. We can pass middleware to the store to handle the processing of data as well as to keep a log of various actions that change the state of stores. All actions return a new state via reducers.
+
+**List differences between Redux and Flux.**
+
+Flux
+
+1. store contains state and change logic
+2. multiple stores
+3. all stores are disconnected and flat
+4. has singleton dispatcher
+5. React conponents subscribe to to store
+6. state is mutable
+
+Redux
+
+1. store and change logic are separate
+2. there is only one store
+3. single store with hierarchical reducers
+4. no concept of dispatcher
+5. container components utilize connect
+6. state is immutable
+
+**What are the advantages of Redux?**
+
+1. Predictability of outcome
+  - since there is only one source of truth, ie the store, there is no confusion about how to sync the current state with actions and other parts of the application
+2. Maintainability
+  - the code becomes easier to maintain with a predictable outcome and strict structure
+3. Server-side Rendering
+  - you just need to passthe store created on the server, to the client side. this is very useful for initial render and provides a better user experience as it optimizes the application performance
+4. Developer tools
+  - from actions to state changes, developers can track everything going on in the application in real time
+5. Community and ecosystem
+  - Redux has a huge community behind it which makes it even more captivating to use. A large community of talented individuals contribute to the betterment of the library and develop various apps with it
+6. Ease of testing
+  - Redux's code is mostly functions which are small, pure and isolated. This makes the code testable and independent
+7. Organization
+  - Redux is precise about how code should be organized, this makes the code consistent and easier when a team works with it
+
+### React Router
+
+**What is React Router?**
+
+React router is a pwoerful routing library built on top of React. It helps in adding new screens and flows to an application. This keeps the URL in sync with data that's being displayed on the web page. It maintains a standardized structure and behavior and is used for developing single page web applications. React Router has a simple API.
+
+**Why is switch keyword used in React Router v4?**
+
+Although a <div> is used to encapsulate multiple routes inside the router...the 'switch' keyword is used when you want to display only a single route to be rendered amongst the several defined routes. The <switch> tag when in use matches the typed URL with the defined routes in sequential order. When the first match is found, it renders the specified route, thereby bypassing the remaining routes.
+
+**Why do we need a Router in React?**
+
+A router is used to define multiple routes and when a user types a specific URL, if this URL matches the path of any 'route' defined inside the router, then the user is redirected to that particular route. So basically, we need to add a router library ot our app that allows creating multiple routes with each leading to us a unique view.
+
+```
+<switch>
+  <route exact path='/' component={Home}/>
+  <route path='/posts/:id' component={Newpost}/>
+  <route path='/posts' component={Post}/>
+</switch>
+```
+
+**List advantages of React Router.**
+
+- Just like how React is based on components, in Router v4, the API is 'all about components'. A router can be visualized as a single root component (<BrowserRouter>) in which we enclose the specific child routes (<route>).
+- No need to manually set History value: in router v4, all we need to do is wrap our routes within the <BrowserRouter> component
+- The packages are split: three packages one each for Web, Native, and Core. This supports the compact size of our app and it is easy to switch over based on a similar coding style
+
+**How is React Router different from conventional routing?**
+
+1. Pages Involved 
+  - Conventional : each view corresponds to a new file
+  - React : Only single HTML page is involved
+2. URL Changes
+  - Conventional : a HTTP request is sent to a server and corresponding HTML page is received
+  - React : only the history attribute is changed
+3. Feel
+  - Conventional : user actually navigates across different pages for each view
+  - React : user is duped thinking he is navigating across different pages
