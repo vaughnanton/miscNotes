@@ -23,6 +23,29 @@ will output the state data for object(user) Susan(string).
 
 # console.dir()
 
+Say you have the following div..
+
+```
+<div id='container'>
+  <div class="loot 46" data-reactroot>
+    <div tabindex="-1">...</div>
+      ::after
+  </div>
+</div>
+
+let element = document.getElementById('container');
+
+console.log(element);
+```
+
+console.log(element) will give you just the DOM representation as structured above, however,
+
+```
+console.dir(element);
+```
+
+will output the element in a more object-like fashion - all the data related to the element vs just the structure
+
 
 # console.warn()
 
