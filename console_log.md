@@ -49,6 +49,7 @@ will output the element in a more object-like fashion - all the data related to 
 
 # console.warn()
 
+Direct replacement for log() is console.warn(). The output is a bit yellow, and a bit more obvious in a cluttered output. The biggest advantage is that you can filter out all the console.log and leave only console.warn. This is particularly helpful in a particularly busy app, clearing the noise can help see your output much more easily. 
 
 # console.table()
 
