@@ -49,10 +49,53 @@ will output the element in a more object-like fashion - all the data related to 
 
 # console.warn()
 
-Direct replacement for log() is console.warn(). The output is a bit yellow, and a bit more obvious in a cluttered output. The biggest advantage is that you can filter out all the console.log and leave only console.warn. This is particularly helpful in a particularly busy app, clearing the noise can help see your output much more easily. 
+Direct replacement for log() is console.warn(). The output is a bit yellow, and a bit more obvious in a cluttered output. The biggest advantage is that you can filter out all the console.log and leave only console.warn. This is particularly helpful in a particularly busy app, clearing the noise can help see your output much more easily.
 
 # console.table()
 
+Intented to display tabular data in a way that's much neater than just dumping out the raw array of objects.
+
+Example of data:
+
+```
+const transactions = [{
+  id: "7cb1-e041b126-f3b8",
+  seller: "WAL0412",
+  buyer: "WAL3023",
+  price: 203450,
+  time: 1539688433
+},
+{
+  id: "1d4c-31f8f14b-1571",
+  seller: "WAL0452",
+  buyer: "WAL3023",
+  price: 348299,
+  time: 1539688433
+},
+{
+  id: "b12c-b3adf58f-809f",
+  seller: "WAL0012",
+  buyer: "WAL2025",
+  price: 59240,
+  time: 1539688433
+}];
+```
+
+Console log would output the data like so:
+
+```
+▶ (3) [{…}, {…}, {…}]
+```
+
+Console.table(data) output everything in a literal table, **very useful**.
+
+The optional second argument is the list of columns you want:
+
+```
+console.table(data, ["id", "price"]);
+```
+
+Can also sort by columns within the tables, though it can only handle a maximum of 1000 rows of data.
 
 # console.assert()
 
