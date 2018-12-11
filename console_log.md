@@ -102,6 +102,23 @@ Can also sort by columns within the tables, though it can only handle a maximum 
 
 # console.count()
 
+Used for counting - probably not too useful in the real world...
+
+```
+for (let i=0; i < 1000; i++) {
+  if(i % 2) {
+    console.count('odds');
+  }
+  if(!(i % 5)) {
+    console.count('multiplesOfFive');
+  }
+  if(isPrime(i)) {
+    console.count('prime');
+  }
+}
+```
+
+Can reset the counter with console.countReset()
 
 # console.trace()
 
