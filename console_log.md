@@ -97,9 +97,6 @@ console.table(data, ["id", "price"]);
 
 Can also sort by columns within the tables, though it can only handle a maximum of 1000 rows of data.
 
-# console.assert()
-
-
 # console.count()
 
 Used for counting - probably not too useful in the real world...
@@ -122,8 +119,62 @@ Can reset the counter with console.countReset()
 
 # console.trace()
 
+Useful when you're trying to figure out inside a class or library which caller is causing the problem. For example, there might be 12 different components calling a service, but one of them doesn't have a dependency set up properly.
+
+```
+export default class CupcakeService {
+
+  constructor(dataLib) {
+    this.dataLib = dataLib;
+    if(typeof dataLib !== 'object') {
+      console.log(dataLib);
+      console.trace();
+    }
+  }
+
+  ...
+}
+```
+
+Using console.log() above would tell us what the dataLib is being passed in as, but not where.
 
 # console.time()
 
+This is a better way to track the microtime taken for JS executions.
 
+```
+function slowFunction(number) {
+  var functionTimeStart = new Date().getTime();
+  //something slow or complex with the number
+  //factorials, etc
+  var functionTime = new Date().getTime() - functionTimeStart;
+  console.log('Function time: ${ functionTime }');
+}
+
+var start = new Date().getTime();
+
+for (i = 0; i < 100000; i++) {
+  slowFunction(i);
+}
+
+var time = new Date().getTime() - start;
+console.log('Execution time: ${ time }');
+```
+
+can be modernized to (no need for any math or temporary variables)
+
+```
+const slowFunction = number =>  {
+  console.time('slowFunction');
+  // something slow or complex with the numbers.
+  // Factorials, or whatever.
+  console.timeEnd('slowFunction');
+}
+console.time();
+
+for (i = 0; i < 100000; ++i) {
+  slowFunction(i);
+}
+console.timeEnd();
+```
 # console.group()
