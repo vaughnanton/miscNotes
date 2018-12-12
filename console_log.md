@@ -1,3 +1,5 @@
+Console debugging goes much further than just console log - here, we explore...
+
 # console.log()
 
 Most people know console.log(object)
@@ -201,4 +203,4 @@ console.groupEnd();
 console.log('All done now');
 ```
 
-Useful to make clear the context of your logging. 
+Useful to make clear the context of your logging.
