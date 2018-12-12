@@ -46,7 +46,7 @@ console.log(element) will give you just the DOM representation as structured abo
 console.dir(element);
 ```
 
-will output the element in a more object-like fashion - all the data related to the element vs just the structure
+will output the element in a more object-like fashion - all the data related to the element vs just the structure.
 
 
 # console.warn()
