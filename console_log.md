@@ -177,4 +177,28 @@ for (i = 0; i < 100000; ++i) {
 }
 console.timeEnd();
 ```
+
 # console.group()
+
+Allows one to group/nest things; excels in showing structure that exists in code.
+
+```
+// this is the global scope
+let number = 1;
+
+console.group('OutsideLoop');
+console.log(number);
+console.group('Loop');
+
+for (let i = 0; i < 5; i++) {
+  number = i + number;
+  console.log(number);
+}
+
+console.groupEnd();
+console.log(number);
+console.groupEnd();
+console.log('All done now');
+```
+
+Useful to make clear the context of your logging. 
