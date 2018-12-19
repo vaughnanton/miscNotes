@@ -211,3 +211,160 @@ $ ./node_modules/.bin/webpack
 ```
 
 Don't need to specify the options anymore as webpack is loading those from the config file.
+
+####Transpiling code for new language features (babel)
+
+Transpiling code means converting from one language to a similar language. Sass, Less, Stylus for CSS and Babel or TypeScript for Javascript. Babel transpiles ES6 JS to ES5/browser compatible JS. Typescript is a language that is essentially identical to next generation JS, but also adds static typing.
+
+First install babel
+
+```
+$ npm install @babel/core @babel/preset-env babel-loader --save-dev
+```
+
+@babel/core is the main part of babel, @babel/preset-env is a preset defining which new JS features to transpile, and babel-loader is a package to enable babel to work with webpack. Next we configure webpack to use babel-loader by editing the **webpack.config.js**:
+
+```
+// webpack.config.js
+module.exports = {
+  mode: 'development',
+  entry: './index.js',
+  output: {
+    filename: 'main.js',
+    publicPath: 'dist'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
+    ]
+  }
+};
+```
+
+Now we can start writing ES6 features in our JS - here's an example of an ES6 template string in **index.js**:
+
+```
+// index.js
+var library = require('library');
+
+var name = "Bob", time = "today";
+console.log(`Hello ${name}, how are you ${time}?`);
+```
+
+We can also use ES6 import statement instead of using require:
+
+```
+// index.js
+import library from 'library';
+
+var name = "Bob", time = "today";
+console.log(`Hello ${name}, how are you ${time}?`);
+```
+
+Since we changed **index.js**, we need to run webpack again in the command line:
+
+```
+$./node_modules/.bin/webpack
+```
+
+All this transpiling allows people to use tomorrow's features today.
+
+####Using a task runner (npm scripts)
+
+Since we're investing in using a build step to work with JS modules, it makes sense to use a task runner, which is a tool that automates different parts of the build process. For frontend development, tasks include minifying code, optimizing images, running tests, etc.
+
+In 2013, Grunt was most popular, with Gulp following after. Both rely on plugins that wrap other command line tools. Today, the most popular choice is to use the scripting capabilities built into the npm package manager itself, which doesn't use plugins but instead works with other command line tools directly. Let's write some npm scripts to make using webpack easier. Change **package.json** as follows:
+
+```
+{
+  "name": "modern-javascript-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --mode=production",
+    "watch": "webpack --progress --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.22.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
+```
+
+We've added **build** and **watch**. To run the build script, you can enter in the command line:
+
+```
+$ npm run build
+```
+
+This will run webpacking using config from the **webpack.config.js** with the **--progress** option to show the percent progress and the **--mode=production** option to minimize the code for production.
+
+```
+$ npm run watch
+```
+
+This uses the **--watch** option instead to automatically re-run webpack each time any JS file changes, which is great for development.
+
+Note that scripts in **package.json** can run webpack without having to specify the full path **./node_modules/.bin/webpack** since node.js knows the location of each npm module path. We can make things even easier by installing webpack-dev-server, a separate tool which provides a simple web server with live reloading:
+
+```
+$ npm install webpack-dev-server --save-dev
+```
+
+Then add an npm script to **package.json**:
+
+```
+{
+  "name": "modern-javascript-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress -p",
+    "watch": "webpack --progress --watch",
+    "server": "webpack-dev-server --open"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.19.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "webpack": "^3.7.1",
+    "webpack-dev-server": "^3.1.6"
+  }
+}
+```
+
+Now you can start your dev server by running the command:
+
+```
+$ npm run server
+```
+
+This will automatically open index.html in your browser with an adress of localhost:8080 - anytime you change JS in index.js, webpack-dev-server will rebuild its own bundled JS and refresh the browser automatically.
+
+This is modern JS in a nutshell. From plain HTML an dJS to using a package manager to automatically download 3rd party packages, a module bundler to create a single script file, a transpiler to use future JS features, and a task runner to automate different parts of the build process.
