@@ -7,7 +7,7 @@
   - to exit the `man` page, you may hit 'q'
 
 
-  
+   
   Key (Symbol)
   Command	(⌘)
   Control	(⌃)
