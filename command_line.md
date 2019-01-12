@@ -35,20 +35,20 @@ Hitting the up arrow will allow you to scroll through previous commands
 
 **Redirecting & Appending**
 
-- The angle bracket will take the echo statement and redirect its contents to a file called sonnet_1.txt
+The angle bracket will take the echo statement and redirect its contents to a file called sonnet_1.txt
 
 ```
 $ echo "From fairest creatures we desire increase," > sonnet_1.txt
 ```
 
-- We can dump out the contents of the text file to the screen with the `cat` command (where cat is short for concatenate)
+We can dump out the contents of the text file to the screen with the `cat` command (where cat is short for concatenate)
 
 ```
 $ cat sonnet_1.txt
 From fairest creatures we desire increase,
 ```
 
-- We can then use the append operator `>>` to add the second line of the sonnet
+We can then use the append operator `>>` to add the second line of the sonnet
 
 ```
 $ echo "That thereby beauty's Rose might never die," >> sonnet_1.txt
@@ -58,7 +58,7 @@ From fairest creatures we desire increase,
 That thereby beauty's Rose might never die,
 ```
 
-- To check difference between files we can use `diff`
+To check difference between files we can use `diff`
 
 ```
 $ diff sonnet_1.txt sonnet_1_lower_case.txt
@@ -86,3 +86,33 @@ total 16
   - can also be passed separately as `ls -r -t -l`
 
 - `touch` followed by a file name will create that file
+
+**Hidden Files**
+
+Unix has a concept of hidden files and directories which don't show up by default
+  - these start with a dot `.` and are commonly used for storing user preferences
+
+```
+$ echo "*.txt" > .gitignore
+$ cat .gitignore
+*.txt
+```
+
+If we then run ls, the file won’t show up, because it’s hidden:
+
+```
+$ ls
+sonnet_1.txt
+sonnet_1_reversed.txt
+```
+
+-To get `ls` to display hidden files and directories, we need to pass in `-a` for all
+
+```
+$ls -a
+.gitignore      
+sonnet_1_reversed.txt
+sonnet_1.txt
+```
+
+**Renaming, Copying, Deleting**
