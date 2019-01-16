@@ -1,10 +1,10 @@
 Various Notes on the Swift Programming Language
 
-##The Swift Programming Language Documentation
+## The Swift Programming Language Documentation
 
-####The Basics
+#### The Basics
 
-#####Constants and Variables
+##### Constants and Variables
 
 **Declaring Constants and Variables**
 - associate a name with a value of a particular type
@@ -50,7 +50,7 @@ print("The current value of welcomeMessage is \(welcomeMessage)")
 // Prints "The current value of welcomeMessage is Hello"
 ```
 
-#####Comments
+##### Comments
 
 ```
 // This is a comment.
@@ -59,7 +59,7 @@ print("The current value of welcomeMessage is \(welcomeMessage)")
 but is written over multiple lines. */
 ```
 
-#####Semicolons
+##### Semicolons
 
 - semicolons are not required after each statement unelss you want to write multiple separate statements on a single line
 ```
@@ -67,7 +67,7 @@ let cat = "catEmoji"; print(cat)
 // Prints "catEmoji"
 ```
 
-#####Integers
+##### Integers
 
 - whole numbers without a fractional component
 
@@ -86,7 +86,7 @@ let maxValue = UInt8.max // maxValue is equal to 255, and is of type UInt8
 **UInt**
 - an unsigned integer type
 
-#####Floating-Point numbers
+##### Floating-Point numbers
 
 - numbers with a fractional component such as 3.14159, 0.1, and -27.31
 - can represent wider range than values of integer types and can store numbers that are larger or smaller than can be stored in an Int
@@ -94,7 +94,7 @@ let maxValue = UInt8.max // maxValue is equal to 255, and is of type UInt8
   - Double represents a 64 bit floating-point number
   - Float represents a 32 bit floating-point number
 
-#####Type Safety and Type Inference
+##### Type Safety and Type Inference
 
 - Swift is a type-safe language; it encourages you to be clear about the types of values your code can work with
 - Swift performs type checks when compiling your code and flags any mismatched types as errors
@@ -107,7 +107,7 @@ let pi = 3.14159
 // pi is inferred to be of type Double, Swift always chooses Double over Float when inferring floating point numbers
 ```
 
-#####Numeric Literals
+##### Numeric Literals
 
 - integer literals can be written as
 ```
@@ -117,7 +117,7 @@ let octalInteger = 0o21 // 17 in octal notation
 let hexadecimalInteger = 0x11 // 17 in hexadecimal notation
 ```
 
-#####Numeric Type Conversion
+##### Numeric Type Conversion
 
 **Integer Conversion**
 - use the Int type for all general-purpose integer constants and variables in your code
@@ -153,10 +153,10 @@ let integerPi = Int(pi)
 // floating point values are always truncated, so 4.75 becomes 4 and -3.9 becomes -3
 ```
 
-#####Booleans
+##### Booleans
 - boolean type is Bool, of constant values true or false
 
-#####Tuples
+##### Tuples
 - group multiple values into a single compound value
 - can be of any type and don't have to match
 - useful as return values of functions
