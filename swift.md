@@ -105,3 +105,71 @@ let meaningOfLife = 42
 
 let pi = 3.14159
 // pi is inferred to be of type Double, Swift always chooses Double over Float when inferring floating point numbers
+```
+
+#####Numeric Literals
+
+- integer literals can be written as
+```
+let decimalInteger = 17
+let binaryInteger = 0b10001 // 17 in binary notation
+let octalInteger = 0o21 // 17 in octal notation
+let hexadecimalInteger = 0x11 // 17 in hexadecimal notation
+```
+
+#####Numeric Type Conversion
+
+**Integer Conversion**
+- use the Int type for all general-purpose integer constants and variables in your code
+- range of numbers that can be stored in integer let/var is different for each numeric type
+```
+let cannotBeNegative: UInt8 = -1
+// UInt8 cannot store negative numbers, and so this will report an error
+let tooBig: Int8 = Int8.max + 1
+// Int8 cannot store a number larger than its maximum value,
+// and so this will also report an error
+```
+
+- to convert oen specific type to another, initialize a new number of desired type with the existing value
+```
+// can't be added directly because not of same type, so have to convert both to UInt16...
+let twoThousand: UInt16 = 2_000
+let one: UInt8 = 1
+let twoThousandAndOne = twoThousand + UInt16(one)
+```
+
+**Integer and Floating-Point Conversion**
+- conversions between integer and floating-point must be made explicit
+```
+let three = 3
+let pointOneFourOneFiveNine = 0.14159
+let pi = Double(three) + pointOneFourOneFiveNine
+// pi equals 3.14159, and is inferred to be of type Double
+```
+- integer type can be initialized with a Double or Float value
+```
+let integerPi = Int(pi)
+// integerPi equals 3, and is inferred to be of type Int
+// floating point values are always truncated, so 4.75 becomes 4 and -3.9 becomes -3
+```
+
+#####Booleans
+- boolean type is Bool, of constant values true or false
+
+#####Tuples
+- group multiple values into a single compound value
+- can be of any type and don't have to match
+- useful as return values of functions
+```
+let http404Error = (404, "Not Found")
+// http404Error is of type (Int, String), and equals (404, "Not Found")
+// a tuple of type (int, String)
+```
+- you can name the individual elements in a tuple when it is defined
+```
+let http200Status = (statusCode: 200, description: "OK")
+print("The status code is \(http200Status.statusCode)")
+// Prints "The status code is 200"
+print("The status message is \(http200Status.description)")
+// Prints "The status message is OK"
+```
