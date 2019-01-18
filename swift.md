@@ -186,3 +186,72 @@ let convertedNumber = Int(possibleNumber)
 ```
 
 The question mark above indicates that the value it contains is optional, it might contain some Int value, or it might contain no value at all (and it can't contain anything else, like a bool or a string)
+
+- you set an optional variable to a valueless state by assigning it the special value nil
+- if a constant/variable in your code needs to work with the absence of a value under certain conditions, always declare it as an optional value of the appropriate type
+```
+var serverResponseCode: Int? = 404
+// serverResponseCode contains an actual Int value of 404
+serverResponseCode = nil
+// serverResponseCode now contains no value
+```
+
+**Nil**
+- if you define an optional variable without providing a default value, the variable is auto set to nil
+```
+var surveyAnswer: String?
+// surveyAnswer is automatically set to nil
+```
+
+**If Statements and Forced Unwrapping**
+
+If an optional has a value it is considered 'not equal to' nil...
+```
+if convertedNumber != nil {
+    print("convertedNumber contains some integer value.")
+}
+// Prints "convertedNumber contains some integer value."
+```
+Once you're sure the optional does have a value, you can access using ! at the end of optional's name
+  - "I know this optional definitely has a value, please use it" known as forced unwrapping
+```
+if convertedNumber != nil {
+    print("convertedNumber has an integer value of \(convertedNumber!).")
+}
+// Prints "convertedNumber has an integer value of 123."
+```
+
+**Optional Binding**
+
+Use optional binding to find out if optional has value, if so, make that value available as a temporary constant or variable.
+- constants and variables created with optional binding in if statement are only available within body of if statement
+
+Above example can be rewritten as...
+```
+if let actualNumber = Int(possibleNumber) {
+    print("The string \"\(possibleNumber)\" has an integer value of \(actualNumber)")
+} else {
+    print("The string \"\(possibleNumber)\" could not be converted to an integer")
+}
+// Prints "The string "123" has an integer value of 123"
+```
+- “If the optional Int returned by Int(possibleNumber) contains a value, set a new constant called actualNumber to the value contained in the optional."
+
+**Implicitly Unwrapped Optionals**
+
+Sometimes it's clear that an optional will always have a value after the first value is set. In such cases, it's useful to remove the need to check and unwrap the optional's value every time it's accessed because it can be assumed to have a value all of the time. This is an example of implicitly unwrapped optional.
+
+- written as `String!` instead of `String?`
+- primary use is during class initialization
+
+Example of optional string and implicitly unwrapped optional string when accessing their value as an explicit string...
+
+```
+let possibleString: String? = "An optional string."
+let forcedString: String = possibleString! // requires an exclamation mark
+
+let assumedString: String! = "An implicitly unwrapped optional string."
+let implicitString: String = assumedString // no need for an exclamation mark
+```
+
+Can think of implicitly wrapped optional as giving permission for the optional to be unwrapped automatically whenever it's used.
