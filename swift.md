@@ -173,3 +173,16 @@ print("The status code is \(http200Status.statusCode)")
 print("The status message is \(http200Status.description)")
 // Prints "The status message is OK"
 ```
+
+##### Optionals
+- use optionals in situations where a value may be absent, it represents two possibilities
+  - either there **is** a value and you can unwrap the optional to access that value
+  - or there isn't a value at all
+
+```
+let possibleNumber = "123"
+let convertedNumber = Int(possibleNumber)
+// convertedNumber is inferred to be of type "Int?", or "optional Int"
+```
+
+The question mark above indicates that the value it contains is optional, it might contain some Int value, or it might contain no value at all (and it can't contain anything else, like a bool or a string)
