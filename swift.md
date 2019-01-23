@@ -317,3 +317,401 @@ precondition(index > 0, "Index must be greater than zero.")
 Unary - operators on a single target such as `-a`, `!b`, `c!`
 Binary - operators on two targets such as `2 + 3`
 Ternary - operators on three targets `a ? b : c`
+
+#####Assignment Operator
+
+```
+let b = 10
+var a = 5
+a = b
+// a is now equal to 10
+
+let (x, y) = (1, 2)
+// x is equal to 1, and y is equal to 2
+```
+
+#####Arithmetic Operators
+
+```
+1 + 2       // equals 3 - addition
+5 - 3       // equals 2 - subtraction
+2 * 3       // equals 6 - multiplication
+10.0 / 2.5  // equals 4.0 - division
+```
+
+String Concatenation
+
+```
+"hello, " + "world"  // equals "hello, world"
+```
+
+#####Remainder Operator
+
+```
+9 % 4    // equals 1
+-9 % 4   // equals -1
+```
+
+- the sign of b is ignored so `a % b` and `a % -b` is always the same
+
+#####Comparison Operators
+
+```
+1 == 1   // true because 1 is equal to 1
+2 != 1   // true because 2 is not equal to 1
+2 > 1    // true because 2 is greater than 1
+1 < 2    // true because 1 is less than 2
+1 >= 1   // true because 1 is greater than or equal to 1
+2 <= 1   // false because 2 is not less than or equal to 1
+```
+
+```
+let name = "world"
+if name == "world" {
+    print("hello, world")
+} else {
+    print("I'm sorry \(name), but I don't recognize you")
+}
+// Prints "hello, world", because name is indeed equal to "world".
+```
+
+```
+(1, "zebra") < (2, "apple")   // true because 1 is less than 2; "zebra" and "apple" are not compared
+(3, "apple") < (3, "bird")    // true because 3 is equal to 3, and "apple" is less than "bird"
+(4, "dog") == (4, "dog")      // true because 4 is equal to 4, and "dog" is equal to "dog"
+```
+
+- Because 1 is less than 2, (1, "zebra") is considered less than (2, "apple"), regardless of any other values in the tuples. It doesn’t matter that "zebra" isn’t less than "apple", because the comparison is already determined by the tuples’ first elements
+
+#####Nil-Coalescing Operator
+
+`a??b` unwraps an optional `a` if it contains a value, or returns a default value `b` if `a` is nil
+
+It is shorthand for the code below...
+
+```
+a != nil ? a! : b
+```
+
+The nil-coalescing operator uses ternary conditional operator and forced unwrapping to access the value wrapped inside `a` when `a` is not nil, and returns `b` otherwise.
+
+```
+let defaultColorName = "red"
+var userDefinedColorName: String?   // defaults to nil
+
+var colorNameToUse = userDefinedColorName ?? defaultColorName
+// userDefinedColorName is nil, so colorNameToUse is set to the default of "red"
+```
+
+#####Range Operators
+
+Closed Range Operator
+`a...b` defines a range that runs form `a` to `b` and includes both values
+
+Half Open Range Operator
+`a..<b` defines a range that runs from `a` to `b`, but doesn't include `b`
+
+One Sided Ranges
+- for ranges that continue as far as possible in one direction
+
+```
+for name in names[2...] {
+    print(name)
+}
+// Brian
+// Jack
+
+for name in names[...2] {
+    print(name)
+}
+// Anna
+// Alex
+// Brian
+```
+
+#####Strings and Characters
+
+####String Literals
+
+`let someString = "Some string literal value"`
+
+**Multiline String Literals**
+
+```
+let quotation = """
+The White Rabbit put on his spectacles.  "Where shall I begin,
+please your Majesty?" he asked.
+
+"Begin at the beginning," the King said gravely, "and go on
+till you come to the end; then stop."
+"""
+```
+
+- if you want to make the code easier to read, can use `\`
+
+```
+let softWrappedQuotation = """
+The White Rabbit put on his spectacles.  "Where shall I begin, \
+please your Majesty?" he asked.
+
+"Begin at the beginning," the King said gravely, "and go on \
+till you come to the end; then stop."
+"""
+```
+
+```
+let lineBreaks = """
+
+This string starts with a line break.
+It also ends with a line break.
+
+"""
+```
+
+- Spaces are ignored up until the closing `"""`
+
+```
+let linesWithIndentation = """
+    This line doesn't begin with whitespace.
+        This line begins with four spaces.
+    This line doesn't begin with whitespace.
+    """
+```
+
+**Special Characters in String Literals**
+
+`\0` - null character
+`\\` - backslash
+`\t` - horizontal tab
+`\n` - line feed
+`\r` - carriage return
+`\"` - double quote
+`\'` - single quote
+`\u{n}` - unicode scalar value where n is 1-8 digit hexadecimal number
+
+```
+let wiseWords = "\"Imagination is more important than knowledge\" - Einstein"
+// "Imagination is more important than knowledge" - Einstein
+let dollarSign = "\u{24}"        // $,  Unicode scalar U+0024
+let blackHeart = "\u{2665}"      // ♥,  Unicode scalar U+2665
+let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496
+```
+
+#####Initializing an Empty String
+
+```
+var emptyString = ""               // empty string literal
+var anotherEmptyString = String()  // initializer syntax
+// these two strings are both empty, and are equivalent to each other
+```
+
+#####String Mutability
+
+```
+var variableString = "Horse"
+variableString += " and carriage"
+// variableString is now "Horse and carriage"
+
+let constantString = "Highlander"
+constantString += " and another Highlander"
+// this reports a compile-time error - a constant string cannot be modified
+```
+
+#####Strings are Value Types
+
+If you create a new String value, that value is copied when it's passed to a function, method, or when it's assigned to a constant/variable.
+
+This ensures that when a function/method passes you a String value, it's clear that you own that exact String value - regardless of where it came from.
+
+#####Working with Characters
+
+Can access individual Character values for a String by iterating over...
+
+```
+for character in "Dog!🐶" {
+    print(character)
+}
+// D
+// o
+// g
+// !
+// 🐶
+```
+
+String values can be constructed by passing array of Character values as arg to initializer...
+
+```
+let catCharacters: [Character] = ["C", "a", "t", "!", "🐱"]
+let catString = String(catCharacters)
+print(catString)
+// Prints "Cat!🐱"
+```
+
+#####String Interpolation
+
+```
+let multiplier = 3
+let message = "\(multiplier) times 2.5 is \(Double(multiplier) * 2.5)"
+// message is "3 times 2.5 is 7.5"
+```
+
+#####Unicode
+
+```
+let eAcute: Character = "\u{E9}"                         // é
+let combinedEAcute: Character = "\u{65}\u{301}"          // e followed by ́
+// eAcute is é, combinedEAcute is é
+
+let precomposed: Character = "\u{D55C}"                  // 한
+let decomposed: Character = "\u{1112}\u{1161}\u{11AB}"   // ᄒ, ᅡ, ᆫ
+// precomposed is 한, decomposed is 한
+```
+
+#####Counting Characters
+
+```
+let unusualMenagerie = "Koala 🐨, Snail 🐌, Penguin 🐧, Dromedary 🐪"
+print("unusualMenagerie has \(unusualMenagerie.count) characters")
+// Prints "unusualMenagerie has 40 characters"
+```
+
+```
+var word = "cafe"
+print("the number of characters in \(word) is \(word.count)")
+// Prints "the number of characters in cafe is 4"
+
+word += "\u{301}"    // COMBINING ACUTE ACCENT, U+0301
+
+print("the number of characters in \(word) is \(word.count)")
+// Prints "the number of characters in café is 4"
+```
+
+#####Accessing and Modifying a String
+
+**String Indices**
+
+```
+let greeting = "Guten Tag!"
+greeting[greeting.startIndex]
+// G
+greeting[greeting.index(before: greeting.endIndex)]
+// !
+greeting[greeting.index(after: greeting.startIndex)]
+// u
+let index = greeting.index(greeting.startIndex, offsetBy: 7)
+greeting[index]
+// a
+```
+
+```
+for index in greeting.indices {
+    print("\(greeting[index]) ", terminator: "")
+}
+// Prints "G u t e n   T a g ! "
+```
+
+**Inserting and Removing**
+
+Inserting
+```
+var welcome = "hello"
+welcome.insert("!", at: welcome.endIndex)
+// welcome now equals "hello!"
+
+welcome.insert(contentsOf: " there", at: welcome.index(before: welcome.endIndex))
+// welcome now equals "hello there!"
+```
+
+Removing
+```
+welcome.remove(at: welcome.index(before: welcome.endIndex))
+// welcome now equals "hello there"
+
+let range = welcome.index(welcome.endIndex, offsetBy: -6)..<welcome.endIndex
+welcome.removeSubrange(range)
+// welcome now equals "hello"
+```
+
+#####Substrings
+
+Use substrings for only a short amount of time while performing actions on a string
+```
+let greeting = "Hello, world!"
+let index = greeting.firstIndex(of: ",") ?? greeting.endIndex
+let beginning = greeting[..<index]
+// beginning is "Hello"
+
+// Convert the result to a String for long-term storage.
+let newString = String(beginning)
+```
+
+#####Comparing Strings
+
+**String Character Equality**
+
+- checked with teh `==` or `!=` operator
+
+```
+let quotation = "We're a lot alike, you and I."
+let sameQuotation = "We're a lot alike, you and I."
+if quotation == sameQuotation {
+    print("These two strings are considered equal")
+}
+// Prints "These two strings are considered equal"
+```
+
+```
+// "Voulez-vous un café?" using LATIN SMALL LETTER E WITH ACUTE
+let eAcuteQuestion = "Voulez-vous un caf\u{E9}?"
+
+// "Voulez-vous un café?" using LATIN SMALL LETTER E and COMBINING ACUTE ACCENT
+let combinedEAcuteQuestion = "Voulez-vous un caf\u{65}\u{301}?"
+
+if eAcuteQuestion == combinedEAcuteQuestion {
+    print("These two strings are considered equal")
+}
+// Prints "These two strings are considered equal"
+```
+
+**Prefix and Suffix Equality**
+
+```
+let romeoAndJuliet = [
+    "Act 1 Scene 1: Verona, A public place",
+    "Act 1 Scene 2: Capulet's mansion",
+    "Act 1 Scene 3: A room in Capulet's mansion",
+    "Act 1 Scene 4: A street outside Capulet's mansion",
+    "Act 1 Scene 5: The Great Hall in Capulet's mansion",
+    "Act 2 Scene 1: Outside Capulet's mansion",
+    "Act 2 Scene 2: Capulet's orchard",
+    "Act 2 Scene 3: Outside Friar Lawrence's cell",
+    "Act 2 Scene 4: A street in Verona",
+    "Act 2 Scene 5: Capulet's mansion",
+    "Act 2 Scene 6: Friar Lawrence's cell"
+]
+
+//can use hasPrefix(_:) method to count the number of scenes in Act 1 of the play
+
+var act1SceneCount = 0
+for scene in romeoAndJuliet {
+    if scene.hasPrefix("Act 1 ") {
+        act1SceneCount += 1
+    }
+}
+print("There are \(act1SceneCount) scenes in Act 1")
+// Prints "There are 5 scenes in Act 1"
+
+//similarly hasSuffix(_:) to count number of scenes that take place in or around Capulet's mansion and Friar Lawrence's cell
+
+var mansionCount = 0
+var cellCount = 0
+for scene in romeoAndJuliet {
+    if scene.hasSuffix("Capulet's mansion") {
+        mansionCount += 1
+    } else if scene.hasSuffix("Friar Lawrence's cell") {
+        cellCount += 1
+    }
+}
+print("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
+// Prints "6 mansion scenes; 2 cell scenes"
+```
