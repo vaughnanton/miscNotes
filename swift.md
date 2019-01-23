@@ -255,3 +255,48 @@ let implicitString: String = assumedString // no need for an exclamation mark
 ```
 
 Can think of implicitly wrapped optional as giving permission for the optional to be unwrapped automatically whenever it's used.
+
+#####Error Handling
+
+```
+func makeASandwich() throws {
+    // ...
+}
+
+do {
+    try makeASandwich()
+    eatASandwich()
+} catch SandwichError.outOfCleanDishes {
+    washDishes()
+} catch SandwichError.missingIngredients(let ingredients) {
+    buyGroceries(ingredients)
+}
+```
+
+In this example, makeASandwich() function will throw an error if no clean dishes are available or if any ingredients are missing. Because makeASandwich() can throw an error, the function call is wrapped in a try expression. By wrapping the function call in a do statement, any errors that are thrown will be propagated to the provided catch clauses.
+
+#####Assertions and Preconditions
+
+- Assertions and preconditions are checks that happen at runtime
+- assertions are checked only in debug builds, in production builds the condition inside an assertion is not evaluated
+- preconditions are checked in both debug and production builds
+
+**Debugging with Assertions**
+
+```
+let age = -3
+assert(age >= 0, "A person's age can't be less than zero.")
+// This assertion fails because -3 is not >= 0.
+```
+
+Or if the code already checks the condition you can use...
+
+```
+if age > 10 {
+    print("You can ride the roller-coaster or the ferris wheel.")
+} else if age >= 0 {
+    print("You can ride the ferris wheel.")
+} else {
+    assertionFailure("A person's age can't be less than zero.")
+}
+```
