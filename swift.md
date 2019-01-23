@@ -300,3 +300,20 @@ if age > 10 {
     assertionFailure("A person's age can't be less than zero.")
 }
 ```
+
+**Enforcing Preconditions**
+
+Use precondition when a condition has the chance to be false, but must definitely be true for code to continue.
+
+```
+// In the implementation of a subscript...
+precondition(index > 0, "Index must be greater than zero.")
+```
+
+####Basic Operators
+
+#####Terminology
+
+Unary - operators on a single target such as `-a`, `!b`, `c!`
+Binary - operators on two targets such as `2 + 3`
+Ternary - operators on three targets `a ? b : c`
