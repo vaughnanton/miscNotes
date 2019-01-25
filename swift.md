@@ -1087,3 +1087,129 @@ namesOfIntegers = [:]
 ```
 
 **Creating a Dictionary with a Dictionary Literal**
+
+```
+var airports: [String: String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
+```
+
+or without the types, because literal is obvious of type
+
+```
+var airports = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
+```
+
+**Accessing and Modifying a Dictionary**
+
+Access and modify a dictionary through its methods and properties, or by using subscript syntax...
+
+Find number of items in Dictionary by checking its read-only count property...
+
+```
+print("The airports dictionary contains \(airports.count) items.")
+// Prints "The airports dictionary contains 2 items."
+```
+
+Use the Boolean isEmpty property as a shortcut for checking whether the count property is equal to 0...
+
+```
+if airports.isEmpty {
+    print("The airports dictionary is empty.")
+} else {
+    print("The airports dictionary is not empty.")
+}
+// Prints "The airports dictionary is not empty."
+```
+
+Can add new item to dictionary with subscript syntax...
+
+```
+airports["LHR"] = "London"
+// the airports dictionary now contains 3 items
+```
+
+Can also use subscript syntax to change value associated with a particular key...
+
+```
+airports["LHR"] = "London Heathrow"
+// the value for "LHR" has been changed to "London Heathrow"
+```
+
+Alternate to subscripting, use a dictionary's updateValue method to set/update value for particular key, this method returns the old value after performing an update
+
+The updateValue method returns an optional value of the dictionary's value type, the optional value contains the old value for that key if one existed before the update, or nil if no value existed.
+
+```
+if let oldValue = airports.updateValue("Dublin Airport", forKey: "DUB") {
+    print("The old value for DUB was \(oldValue).")
+}
+// Prints "The old value for DUB was Dublin."
+```
+
+You can use subscript syntax to retrieve a value form the dictionary for a particular key. Because it's possible to request a key for which no value exists, a dictionary's subscript returns an optional value of the dictionary's value type. If the dictionary contains a value for the requested key, the subscript returns an optional value for the requested key, otherwise returns nil.
+
+```
+if let airportName = airports["DUB"] {
+    print("The name of the airport is \(airportName).")
+} else {
+    print("That airport is not in the airports dictionary.")
+}
+// Prints "The name of the airport is Dublin Airport."
+```
+
+Can use subscript syntax to remove a key-value pair from dictionary by assigning nil for value of that key
+
+```
+airports["APL"] = "Apple International"
+// "Apple International" is not the real airport for APL, so delete it
+airports["APL"] = nil
+// APL has now been removed from the dictionary
+```
+
+Alternatively, remove a key-value pair from a dictionary with the removeValue(forKey:) method. This method removes the key-value pair if it exists and returns the removed value, or returns nil if no value existed:
+
+```
+if let removedValue = airports.removeValue(forKey: "DUB") {
+    print("The removed airport's name is \(removedValue).")
+} else {
+    print("The airports dictionary does not contain a value for DUB.")
+}
+// Prints "The removed airport's name is Dublin Airport."
+```
+
+**Iterating Over a Dictionary**
+
+Can iterate over key-value pairs with a for-in loop, each item is returned as a (key, value) tuple...
+
+```
+for (airportCode, airportName) in airports {
+    print("\(airportCode): \(airportName)")
+}
+// YYZ: Toronto Pearson
+// LHR: London Heathrow
+```
+
+Can also retrieve an iterable collection of a dictionary's keys or values by accessing its keys and values properties...
+
+```
+for airportCode in airports.keys {
+    print("Airport code: \(airportCode)")
+}
+// Airport code: YYZ
+// Airport code: LHR
+
+for airportName in airports.values {
+    print("Airport name: \(airportName)")
+}
+// Airport name: Toronto Pearson
+// Airport name: London Heathrow
+```
+
+If you need to use a dictionary's keys or values with an API that takes an Array instance, initialize a new array with the keys or values property...
+
+```
+let airportCodes = [String](airports.keys)
+// airportCodes is ["YYZ", "LHR"]
+
+let airportNames = [String](airports.values)
+// airportNames is ["Toronto Pearson", "London Heathrow"]
+```
