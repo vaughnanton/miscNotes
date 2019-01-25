@@ -1213,3 +1213,371 @@ let airportCodes = [String](airports.keys)
 let airportNames = [String](airports.values)
 // airportNames is ["Toronto Pearson", "London Heathrow"]
 ```
+
+####Control Flow
+
+#####For-In Loops
+
+Use to iterate over a sequence, such as items in an array, ranges of numbers, or characters in a string...
+
+```
+let names = ["Anna", "Alex", "Brian", "Jack"]
+for name in names {
+    print("Hello, \(name)!")
+}
+// Hello, Anna!
+// Hello, Alex!
+// Hello, Brian!
+// Hello, Jack!
+```
+
+Decompose dictionary key-value pairs into named constants...
+
+```
+let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+for (animalName, legCount) in numberOfLegs {
+    print("\(animalName)s have \(legCount) legs")
+}
+// ants have 6 legs
+// cats have 4 legs
+// spiders have 8 legs
+```
+
+Numeric ranges...
+
+```
+for index in 1...5 {
+    print("\(index) times 5 is \(index * 5)")
+}
+// 1 times 5 is 5
+// 2 times 5 is 10
+// 3 times 5 is 15
+// 4 times 5 is 20
+// 5 times 5 is 25
+```
+
+If you don't need each value from a sequence, can ignore the values by using an underscore in place of a variable name...
+
+```
+let base = 3
+let power = 10
+var answer = 1
+for _ in 1...power {
+    answer *= base
+}
+print("\(base) to the power of \(power) is \(answer)")
+// Prints "3 to the power of 10 is 59049"
+```
+
+Using half-open range operator...
+
+```
+let minutes = 60
+for tickMark in 0..<minutes {
+    // render the tick mark each minute (60 times)
+}
+```
+
+Might want fewer ticks in UI, example one every 5 minutes. Use the stride(from:to:by:) function to skip unwanted marks...
+
+```
+let minuteInterval = 5
+for tickMark in stride(from: 0, to: minutes, by: minuteInterval) {
+    // render the tick mark every 5 minutes (0, 5, 10, 15 ... 45, 50, 55)
+}
+```
+
+Closed ranges are also available by using stride(from:through:by:) instead...
+
+```
+let hours = 12
+let hourInterval = 3
+for tickMark in stride(from: 3, through: hours, by: hourInterval) {
+    // render the tick mark every 3 hours (3, 6, 9, 12)
+}
+```
+
+#####While Loops
+
+Performs a set of statements until a condition becomes false
+
+**While**
+
+Evaluates its condition at the start of each pass through the loop
+
+while condition {
+  statements
+}
+
+Chutes and ladders example...
+
+```
+var square = 0
+var diceRoll = 0
+while square < finalSquare {
+    // roll the dice
+    diceRoll += 1
+    if diceRoll == 7 { diceRoll = 1 }
+    // move by the rolled amount
+    square += diceRoll
+    if square < board.count {
+        // if we're still on the board, move up or down for a snake or a ladder
+        square += board[square]
+    }
+}
+print("Game over!")
+```
+
+**Repeat While**
+
+Evaluates its condition at the end of each pass through the loop
+
+repeat {
+  statements
+} while condition
+
+Chutes and ladders example...
+
+```
+let finalSquare = 25
+var board = [Int](repeating: 0, count: finalSquare + 1)
+board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
+board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
+var square = 0
+var diceRoll = 0
+
+repeat {
+    // move up or down for a snake or ladder
+    square += board[square]
+    // roll the dice
+    diceRoll += 1
+    if diceRoll == 7 { diceRoll = 1 }
+    // move by the rolled amount
+    square += diceRoll
+} while square < finalSquare
+print("Game over!")
+```
+
+#####Conditional Statements
+
+**If**
+
+Final else clause is optional
+
+```
+temperatureInFahrenheit = 90
+if temperatureInFahrenheit <= 32 {
+    print("It's very cold. Consider wearing a scarf.")
+} else if temperatureInFahrenheit >= 86 {
+    print("It's really warm. Don't forget to wear sunscreen.")
+} else {
+    print("It's not that cold. Wear a t-shirt.")
+}
+// Prints "It's really warm. Don't forget to wear sunscreen."
+```
+
+**Switch**
+
+In its simplest form, a switch statement compares a value against one or more values of the same type...
+
+```
+PSEUDO CODE
+
+switch some value to consider {
+case value 1:
+    respond to value 1
+case value 2,
+     value 3:
+    respond to value 2 or 3
+default:
+    otherwise, do something else
+}
+```
+
+```
+let someCharacter: Character = "z"
+switch someCharacter {
+case "a":
+    print("The first letter of the alphabet")
+case "z":
+    print("The last letter of the alphabet")
+default:
+    print("Some other character")
+}
+// Prints "The last letter of the alphabet"
+```
+
+**No Implicit Fallthrough**
+
+Switch statements in Swift do not fall through the bottom of each case and into the next one by default. Instead, the entire switch statement finishes its execution as soon as the first matching switch case is completed, without requiring an explicit break statement.
+
+to make a switch with a single case that matches both "a" and "A", combine two values into a compound case, separating values with commas...
+
+```
+let anotherCharacter: Character = "a"
+switch anotherCharacter {
+case "a", "A":
+    print("The letter A")
+default:
+    print("Not the letter A")
+}
+// Prints "The letter A"
+```
+
+**Interval Matching**
+
+Values in switch cases can be checked for their inclusion in an interval - example uses number intervals to provide a natural language count for numbers of any siez...
+
+```
+let approximateCount = 62
+let countedThings = "moons orbiting Saturn"
+let naturalCount: String
+switch approximateCount {
+case 0:
+    naturalCount = "no"
+case 1..<5:
+    naturalCount = "a few"
+case 5..<12:
+    naturalCount = "several"
+case 12..<100:
+    naturalCount = "dozens of"
+case 100..<1000:
+    naturalCount = "hundreds of"
+default:
+    naturalCount = "many"
+}
+print("There are \(naturalCount) \(countedThings).")
+// Prints "There are dozens of moons orbiting Saturn."
+```
+
+**Tuples**
+
+**Value Bindings**
+
+**Where**
+
+**Compound Cases**
+
+Multiple switch cases that share the same body can be combined by writing several patterns after case, with a comma between each of the patterns. If any of the patterns match, then the case is considered to match. The patterns can be written over multiple lines if the list is long...
+
+```
+let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    print("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+     "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    print("\(someCharacter) is a consonant")
+default:
+    print("\(someCharacter) is not a vowel or a consonant")
+}
+// Prints "e is a vowel"
+```
+
+Compound cases can also include value bindings...
+
+```
+let stillAnotherPoint = (9, 0)
+switch stillAnotherPoint {
+case (let distance, 0), (0, let distance):
+    print("On an axis, \(distance) from the origin")
+default:
+    print("Not on an axis")
+}
+// Prints "On an axis, 9 from the origin"
+```
+
+#####Control Transfer Statements
+
+Change the order in which your code is executed, by transferring control from one piece of code to another...
+
+- continue
+- break
+- fallthrough
+- return
+- throw
+
+**Continue**
+
+**Break**
+
+- ends execution of an entire control flow statement immediately  
+- when used in a loop statement, break ends the loop's execution immediately and transfers control to the code after the loop's closing brace
+- when used inside a switch statement, break causes the switch statement to end its execution immediately and to transfer control to the code after the switch statement's closing brace
+
+```
+let numberSymbol: Character = "三"  // Chinese symbol for the number 3
+var possibleIntegerValue: Int?
+switch numberSymbol {
+case "1", "١", "一", "๑":
+    possibleIntegerValue = 1
+case "2", "٢", "二", "๒":
+    possibleIntegerValue = 2
+case "3", "٣", "三", "๓":
+    possibleIntegerValue = 3
+case "4", "٤", "四", "๔":
+    possibleIntegerValue = 4
+default:
+    break
+}
+if let integerValue = possibleIntegerValue {
+    print("The integer value of \(numberSymbol) is \(integerValue).")
+} else {
+    print("An integer value could not be found for \(numberSymbol).")
+}
+// Prints "The integer value of 三 is 3."
+```
+
+**Fallthrough**
+
+Switch statements don't fall through the bottom of each case and into the next one. That is, the entire switch statement completes its execution as soon as the first matching case is completed. If you need fallthrough behavior, you can opt in to this behavior on a case-by-case basis with the fallthrough keyword.
+
+```
+let integerToDescribe = 5
+var description = "The number \(integerToDescribe) is"
+switch integerToDescribe {
+case 2, 3, 5, 7, 11, 13, 17, 19:
+    description += " a prime number, and also"
+    fallthrough
+default:
+    description += " an integer."
+}
+print(description)
+// Prints "The number 5 is a prime number, and also an integer."
+```
+
+**Labeled Statements**
+
+#####Early Exit
+
+A guard statement, like an if statemnet, executes statements depending on the Boolean value of an expression. A condition must be true in order for the code after the guard statement to be executed...unlike an if statement, guard statement always has an else clause.
+
+```
+func greet(person: [String: String]) {
+    guard let name = person["name"] else {
+        return
+    }
+
+    print("Hello \(name)!")
+
+    guard let location = person["location"] else {
+        print("I hope the weather is nice near you.")
+        return
+    }
+
+    print("I hope the weather is nice in \(location).")
+}
+
+greet(person: ["name": "John"])
+// Prints "Hello John!"
+// Prints "I hope the weather is nice near you."
+greet(person: ["name": "Jane", "location": "Cupertino"])
+// Prints "Hello Jane!"
+// Prints "I hope the weather is nice in Cupertino."
+````
+
+**Checking API Availabliity**
+
+####Functions
+
+#####Defining and Calling Functions 
