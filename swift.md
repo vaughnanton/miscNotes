@@ -1056,3 +1056,34 @@ farmAnimals.isDisjoint(with: cityAnimals)
 ```
 
 #####Dictionaries
+
+- items have no specified order
+- each value is associated with a unique key, which acts as an identifier for value within the dictionary
+
+**Dictionary Type Shorthand Syntax**
+
+Type of Swift dictionary is written in full as `Dictionary<Key, Value>` where key is the type of value that can be used as dictionary key, and value is the type of value that the dictionary stores for those keys
+
+- can also write in shorthand form as `[Key: Value]`
+
+**Creating an Empty Dictionary**
+
+As with arrays, can create empty Dictionary using initializer syntax...
+
+```
+var namesOfIntegers = [Int: String]()
+// namesOfIntegers is an empty [Int: String] dictionary
+```
+
+Above example creates empty dictionary of type [Int: String] to store human-readable names of integer values
+
+If context already provided type information, can create an empty dictionary with `[:]`...
+
+```
+namesOfIntegers[16] = "sixteen"
+// namesOfIntegers now contains 1 key-value pair
+namesOfIntegers = [:]
+// namesOfIntegers is once again an empty dictionary of type [Int: String]
+```
+
+**Creating a Dictionary with a Dictionary Literal**
