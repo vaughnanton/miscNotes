@@ -429,9 +429,9 @@ for name in names[...2] {
 // Brian
 ```
 
-#####Strings and Characters
+####Strings and Characters
 
-####String Literals
+#####String Literals
 
 `let someString = "Some string literal value"`
 
@@ -716,4 +716,343 @@ print("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
 // Prints "6 mansion scenes; 2 cell scenes"
 ```
 
-#####Collection Types
+####Collection Types
+
+Swift provides 3 primary collection types - arrays, sets, and dictionaries (key value pairs), for storing collections of values.
+
+#####Mutability of Collections
+
+- Arrays, sets and dictionaries set to variable are mutable (can be modified)
+- Arrays, sets and dictionaries set to a constant are immutable (size and contents cannot be chagned)
+
+#####Arrays
+
+- Stores values of the same type in an ordered list
+- The same value can appear multiple times at different positions
+
+**Array Type Shorthand Syntax**
+
+- the full syntax is `Array<Element>` where `Element` is the type of values the array is allowed to store
+- the shorthand syntax is `[Element]`
+
+**Creating an Empty Array**
+
+```
+var someInts = [Int]()
+print("someInts is of type [Int] with \(someInts.count) items.")
+// Prints "someInts is of type [Int] with 0 items."
+```
+
+**Creating an Array with a Default Value**
+
+Swift has initializer to create array of certain size with all values set to default value...
+
+```
+var threeDoubles = Array(repeating: 0.0, count: 3)
+// threeDoubles is of type [Double], and equals [0.0, 0.0, 0.0]
+```
+
+**Creating an Array by Adding Two Arrays Together**
+
+```
+var anotherThreeDoubles = Array(repeating: 2.5, count: 3)
+// anotherThreeDoubles is of type [Double], and equals [2.5, 2.5, 2.5]
+
+var sixDoubles = threeDoubles + anotherThreeDoubles
+// sixDoubles is inferred as [Double], and equals [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
+```
+
+**Creating an Array with an Array Literal**
+
+```
+var shoppingList: [String] = ["Eggs", "Milk"]
+// shoppingList has been initialized with two initial items
+```
+
+**Accessing and Modifying an Array**
+
+Find out the number of items in array with `count` method...
+
+```
+print("The shopping list contains \(shoppingList.count) items.")
+// Prints "The shopping list contains 2 items."
+```
+
+Boolean `isEmpty` method to check if `count` property is equal to 0...
+
+```
+if shoppingList.isEmpty {
+    print("The shopping list is empty.")
+} else {
+    print("The shopping list is not empty.")
+}
+// Prints "The shopping list is not empty."
+```
+
+Add to end with `append` method...
+
+```
+shoppingList.append("Flour")
+// shoppingList now contains 3 items, and someone is making pancakes
+```
+
+Append array of 1+ compatible items with += operator...
+
+```
+shoppingList += ["Baking Powder"]
+// shoppingList now contains 4 items
+shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
+// shoppingList now contains 7 items
+```
+
+Retrieve a value with subscript syntax...
+
+```
+var firstItem = shoppingList[0]
+// firstItem is equal to "Eggs"
+```
+
+Can also change a value at given index with subscript syntax...
+
+```
+shoppingList[0] = "Six eggs"
+// the first item in the list is now equal to "Six eggs" rather than "Eggs"
+```
+
+Can use subscript syntax to change a range of values at once...
+
+```
+shoppingList[4...6] = ["Bananas", "Apples"]
+// shoppingList now contains 6 items
+// replaces Chocolate Spread, Cheese, and Butter with Bananas and Apples
+```
+
+To insert an item into array at specified index, call arrays insert at method...
+
+```
+shoppingList.insert("Maple Syrup", at: 0)
+// shoppingList now contains 7 items
+// "Maple Syrup" is now the first item in the list
+```
+
+Similarly remove an item with remove at method...
+
+```
+let mapleSyrup = shoppingList.remove(at: 0)
+// the item that was at index 0 has just been removed
+// shoppingList now contains 6 items, and no Maple Syrup
+// the mapleSyrup constant is now equal to the removed "Maple Syrup" string
+```
+
+If you need to remove final item of array, use removeLast instead of remove at to avoid the need to query the count property...
+
+```
+let apples = shoppingList.removeLast()
+// the last item in the array has just been removed
+// shoppingList now contains 5 items, and no apples
+// the apples constant is now equal to the removed "Apples" string
+```
+
+**Iterating Over an Array**
+
+Can iterate over an entire array with for-in loop...
+
+```
+for item in shoppingList {
+    print(item)
+}
+// Six eggs
+// Milk
+// Flour
+// Baking Powder
+// Bananas
+```
+
+If you need index as well as value, use enumerated method...
+
+- enumerated returns a tuple composed of an integer and an item
+
+```
+for (index, value) in shoppingList.enumerated() {
+  print("Item \(index + 1"): \(value)")
+}
+// Item 1: Six eggs
+// Item 2: Milk
+// Item 3: Flour
+// Item 4: Baking Powder
+// Item 5: Bananas
+```
+
+#####Sets
+
+Set stores distinct values of the same type in a collection with no defined ordering. You can use a set instead of an array when order of items is not important, or if you need to ensure an item only appears once.
+
+**Hash Values for Set Types**
+
+- type must be hashable in order to be stored in a set
+  - a hash value is an Int value that is same for all objects that compare equally such that if a == b, a.hashValue == b.hashValue
+- all of Swift's basic types (string, Int, Double, Bool) are hashable
+
+**Set Type Syntax**
+
+- type of a Swift set is written as `Set<Element>` where Element is the type that set is allowed to store
+
+**Creating and Initializing an Empty Set**
+
+```
+var letters = Set<Character>()
+print("letters is of type Set<Character> with \ (letters.count) items.")
+// Prints "letters is of type Set<Character> with 0 items."
+```
+
+If context provides type of information such as function argument or variable/constant, you can create an empty set with an empty array literal...
+
+```
+letters.insert("a")
+// letters now contains 1 value of type Character
+letters = []
+// letters is now an empty set, but is still of type Set<character>
+```
+
+**Creating a Set with an Array Literal**
+
+Can also initialize a set with array literal, as shorthand way to write one or more values as a set collection.
+
+Ex. set called favoriteGenres to store String values...
+
+```
+var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"]
+// favoriteGenres has been initialized with three initial items
+```
+
+OR written with type inference as...
+
+```
+var favoriteGenres: Set = ["Rock", "Classical", "Hip Hop"]
+```
+
+**Accessing and Modifying a Set**
+
+Access/modify a set through its methods and properties
+
+To find number of items in a set, check its read-only count property...
+
+```
+print("I have \(favoriteGenres.count) favorite music genres.")
+// Prints "I have 3 favorite music genres."
+```
+
+Use Boolean isEmpty property as shortcut for checking if count property is 0...
+
+```
+if favoriteGenres.isEmpty {
+    print("As far as music goes, I'm not picky.")
+} else {
+    print("I have particular music preferences.")
+}
+// Prints "I have particular music preferences."
+```
+
+Can add a new item into a set by calling insert method...
+
+```
+favoriteGenres.insert("Jazz")
+// favoriteGenres now contains 4 items
+```
+
+Can remove an item by calling remove method...
+
+- removes item and returns the value, or returns nil if set did not contain it
+- all items can be removed with removeAll() method
+
+```
+if let removedGenre = favoriteGenres.remove("Rock") {
+    print("\(removedGenre)? I'm over it.")
+} else {
+    print("I never much cared for that.")
+}
+// Prints "Rock? I'm over it."
+```
+
+Use contains() method to check for particular item...
+
+```
+if favoriteGenres.contains("Funk") {
+    print("I get up on the good foot.")
+} else {
+    print("It's too funky in here.")
+}
+// Prints "It's too funky in here."
+```
+
+**Iterating Over a Set**
+
+Can iterate over values with for-in loop...
+
+```
+for genre in favoriteGenres {
+    print("\(genre)")
+}
+// Classical
+// Jazz
+// Hip hop
+```
+
+Since there is not defined ordering, can use sorted() method to return elements as an array sorted using the < operator
+
+```
+for genre in favoriteGenres.sorted() {
+    print("\(genre)")
+}
+// Classical
+// Hip hop
+// Jazz
+```
+
+
+#####Performing Set Operations
+
+**Fundamental Set Operations**
+
+- use intersection method to create a new set with only the values common in both sets
+- use symmetricDifference method to create a new set witih values in either set, but not both
+- use union method to create a new set with all of the values in both sets
+- use subtracting method to create a new set with values not in the specified set
+
+```
+let oddDigits: Set = [1, 3, 5, 7, 9]
+let evenDigits: Set = [0, 2, 4, 6, 8]
+let singleDigitPrimeNumbers: Set = [2, 3, 5, 7]
+
+oddDigits.union(evenDigits).sorted()
+// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+oddDigits.intersection(evenDigits).sorted()
+// []
+oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
+// [1, 9]
+oddDigits.symmetricDifference(singleDigitPrimeNumbers).sorted()
+// [1, 2, 9]
+```
+
+**Set Membership and Equality**
+
+- use the is equal operator (==) to determine whether two sets contain all same values
+- use isSubset(of:) method to determine if all values of a set are contained in specified set
+- use isSuperset(of:) method to determine whether a set contains all of the values in a specified set
+- use isStrictSubset(of:) or isStrictSuperset(of:) methods to determine if a set is a subset or a superset, but not equal to, a specified set
+- use isDisjoin(with:) method to determine if two sets have no values in common
+
+```
+let houseAnimals: Set = ["🐶", "🐱"]
+let farmAnimals: Set = ["🐮", "🐔", "🐑", "🐶", "🐱"]
+let cityAnimals: Set = ["🐦", "🐭"]
+
+houseAnimals.isSubset(of: farmAnimals)
+// true
+farmAnimals.isSuperset(of: houseAnimals)
+// true
+farmAnimals.isDisjoint(with: cityAnimals)
+// true
+```
+
+#####Dictionaries
