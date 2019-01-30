@@ -1905,3 +1905,208 @@ if tenEighty === alsoTenEighty {
 }
 // Prints "tenEighty and alsoTenEighty refer to the same VideoMode instance."
 ```
+
+####Properties
+
+Properties associate values with a particular class, structure, or enumeration.
+
+#####Stored Properties
+
+A stored property is a constant or variable that is stored as part of an instance of a particular class or structure.
+
+- Can be stored via variable or constant
+
+```
+struct FixedLengthRange {
+    var firstValue: Int
+    let length: Int
+}
+var rangeOfThreeItems = FixedLengthRange(firstValue: 0, length: 3)
+// the range represents integer values 0, 1, and 2
+rangeOfThreeItems.firstValue = 6
+// the range now represents integer values 6, 7, and 8
+```
+
+**Stored Properties of Constant Structure Instances**
+
+If you create an instance of a struct and assign that instance to a constant, you cannot modify the instance's properties - even if declared as variables
+
+```
+let rangeOfFourItems = FixedLengthRange(firstValue: 0, length: 4)
+// this range represents integer values 0, 1, 2, and 3
+rangeOfFourItems.firstValue = 6
+// this will report an error, even though firstValue is a variable property
+```
+
+The same is not true for classes because they are reference types.
+
+**Lazy Stored Properties**
+
+- A property whose initial value is not calculated until the first time it is used
+- useful when initial value for a property is dependent on outside factors whose values are not known until after an instance initialization is complete
+- useful when initali value for a prop requires complex or computationally expensive setup that should not be performed unless or until needed
+
+```
+class DataImporter {
+    /*
+    DataImporter is a class to import data from an external file.
+    The class is assumed to take a nontrivial amount of time to initialize.
+    */
+    var filename = "data.txt"
+    // the DataImporter class would provide data importing functionality here
+}
+
+class DataManager {
+    lazy var importer = DataImporter()
+    var data = [String]()
+    // the DataManager class would provide data management functionality here
+}
+
+let manager = DataManager()
+manager.data.append("Some data")
+manager.data.append("Some more data")
+// the DataImporter instance for the importer property has not yet been created
+```
+
+to retrieve data you must call importer from example above...
+
+```
+print(manager.importer.filename)
+// the DataImporter instance for the importer property has now been created
+// Prints "data.txt"
+```
+
+**Stored Properties and Instance Variables**
+
+All infomration about the property - including name, type, and memory management characteristics - is definied in a single location as part of the type's definition.
+
+#####Computed Properties
+
+#####Property Observers
+
+- observe and respond to changes in a porperty's value
+- called every time a prop value is set, even if the new value is the same
+- can add to anny stored properties except lazy properties
+- `willSet` is called just before the value is stored
+- `didSet` is called immediately after the new value is stored
+
+```
+class StepCounter {
+    var totalSteps: Int = 0 {
+        willSet(newTotalSteps) {
+            print("About to set totalSteps to \(newTotalSteps)")
+        }
+        didSet {
+            if totalSteps > oldValue  {
+                print("Added \(totalSteps - oldValue) steps")
+            }
+        }
+    }
+}
+let stepCounter = StepCounter()
+stepCounter.totalSteps = 200
+// About to set totalSteps to 200
+// Added 200 steps
+stepCounter.totalSteps = 360
+// About to set totalSteps to 360
+// Added 160 steps
+stepCounter.totalSteps = 896
+// About to set totalSteps to 896
+// Added 536 steps
+```
+
+#####Global and Local Variables
+
+- Global variables are defined outside of any function, method, closure, or type context
+- Local variables are defined within a function, method, or closure context
+
+#####Type Properties
+
+- instance properties belong to an instance of a particular type, every time you create a new instance of that type, it has its own set of property values, separate form any other instance
+- can also define properties that belong to the type itself and not to any one instance of that type, these are called type properties
+  - useful for defining values universal to all instances of a particular type
+  - can be variables or constants
+  - computed properties are declared as variable properties
+
+**Type Property Syntax**
+
+- type properties are written as part of the type's definition, within the outer curly braces
+- each type property is scoped to the type it supports
+- definied with the `static` keyword
+  - can use the `class` keyword instead to allow subclasses to override the superclass's implementation
+
+```
+struct SomeStructure {
+    static var storedTypeProperty = "Some value."
+    static var computedTypeProperty: Int {
+        return 1
+    }
+}
+enum SomeEnumeration {
+    static var storedTypeProperty = "Some value."
+    static var computedTypeProperty: Int {
+        return 6
+    }
+}
+class SomeClass {
+    static var storedTypeProperty = "Some value."
+    static var computedTypeProperty: Int {
+        return 27
+    }
+    class var overrideableComputedTypeProperty: Int {
+        return 107
+    }
+}
+```
+
+**Querying and Setting Type Properties**
+
+- queried and set with dot syntax on the _type_, not the _instance_ of the type
+
+```
+print(SomeStructure.storedTypeProperty)
+// Prints "Some value."
+SomeStructure.storedTypeProperty = "Another value."
+print(SomeStructure.storedTypeProperty)
+// Prints "Another value."
+print(SomeEnumeration.computedTypeProperty)
+// Prints "6"
+print(SomeClass.computedTypeProperty)
+// Prints "27"
+```
+
+More indepth example with observers for an audio left and right channel level...
+
+```
+struct AudioChannel {
+    static let thresholdLevel = 10
+    static var maxInputLevelForAllChannels = 0
+    var currentLevel: Int = 0 {
+        didSet {
+            if currentLevel > AudioChannel.thresholdLevel {
+                // cap the new audio level to the threshold level
+                currentLevel = AudioChannel.thresholdLevel
+            }
+            if currentLevel > AudioChannel.maxInputLevelForAllChannels {
+                // store this as the new overall maximum input level
+                AudioChannel.maxInputLevelForAllChannels = currentLevel
+            }
+        }
+    }
+
+// making a left and right channel
+var leftChannel = AudioChannel()
+var rightChannel = AudioChannel()
+
+leftChannel.currentLevel = 7
+print(leftChannel.currentLevel)
+// Prints "7"
+print(AudioChannel.maxInputLevelForAllChannels)
+// Prints "7"
+
+rightChannel.currentLevel = 11
+print(rightChannel.currentLevel)
+// Prints "10"
+print(AudioChannel.maxInputLevelForAllChannels)
+// Prints "10"
+```
