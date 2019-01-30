@@ -1757,3 +1757,151 @@ print("zero!")
 ####Classes and Structures
 
 #####Comparing Classes and Structures
+
+Structures and classes have many things in common, both can:
+
+- define properties to store values
+- define methods to provide funcitonality
+- define subscripts to provide access to their values using subscript syntax
+- define initializers to set up their initial state
+- be extended to expand their functionality beyond a default implementation
+- conform to protocols to provide standard functionality of a certain kind
+
+Classes have additional capabilities that structures don't have:
+
+- inheritance enables one class to inherit the characteristics of another
+- type casting enables you to check and interpret the type of a class instance at runtime
+- deinitializers enable an instance of a class to free up any resources it has assigned
+- reference counting allows more than one reference to a class instance
+
+**Definition Syntax**
+
+```
+struct SomeStructure {
+    // structure definition goes here
+}
+class SomeClass {
+    // class definition goes here
+}
+
+struct Resolution {
+    var width = 0
+    var height = 0
+}
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = false
+    var frameRate = 0.0
+    var name: String?
+}
+```
+
+**Structure and Class Instances**
+
+The class and structure in the previous section only describe what those will look like, they don't describe a specific resolution or video mode. In order to do that you need an instance...
+
+```
+let someResolution = Resolution()
+let someVideoMode = VideoMode()
+```
+
+**Accessing Properties**
+
+Can access the properties of an instance using dot syntax...
+
+```
+print("The width of someResolution is \(someResolution.width)")
+// Prints "The width of someResolution is 0"
+```
+
+You can go further down...
+
+```
+print("The width of someVideoMode is \(someVideoMode.resolution.width)")
+// Prints "The width of someVideoMode is 0"
+```
+
+You can also use dot syntax to assign a new value to a variable property...
+
+```
+someVideoMode.resolution.width = 1280
+print("The width of someVideoMode is now \(someVideoMode.resolution.width)")
+// Prints "The width of someVideoMode is now 1280"
+```
+
+**Memberwise Initializers for Structure Types**
+
+All structures have auto generated _memberwise initializer_, which can be used ot initialize member properties of new structure instances.
+
+```
+let vga = Resolution(width: 640, height: 480)
+```
+
+#####Structures and Enumerations are Value Types
+
+A value type is a type whose value is copied when it's assigned to a variable or constant, or when it's passed to a function.
+
+Below, a copy of hd(Resolution) is made, and is assigned to cinema...
+
+```
+let hd = Resolution(width: 1920, height: 1080)
+var cinema = hd
+```
+
+If you change cinema width, hd width remains the same because of the copy...
+
+```
+cinema.width = 2048
+
+print("cinema is now \(cinema.width) pixels wide")
+// Prints "cinema is now 2048 pixels wide"
+
+print("hd is still \(hd.width) pixels wide")
+// Prints "hd is still 1920 pixels wide"
+```
+
+The same behavior applies to enumerations...
+
+```
+enum CompassPoint {
+    case north, south, east, west
+    mutating func turnNorth() {
+        self = .north
+    }
+}
+var currentDirection = CompassPoint.west
+let rememberedDirection = currentDirection
+currentDirection.turnNorth()
+
+print("The current direction is \(currentDirection)")
+print("The remembered direction is \(rememberedDirection)")
+// Prints "The current direction is north"
+// Prints "The remembered direction is west"
+```
+
+#####Classes Are Reference Types
+
+Unlike value types, reference types are not copied when they are assigned to a variable or constant or when they are passed to a function...
+
+```
+let tenEighty = VideoMode()
+tenEighty.resolution = hd
+tenEighty.interlaced = true
+tenEighty.name = "1080i"
+tenEighty.frameRate = 25.0
+
+let alsoTenEighty = tenEighty
+alsoTenEighty.frameRate = 30.0
+
+print("The frameRate property of tenEighty is now \(tenEighty.frameRate)")
+// Prints "The frameRate property of tenEighty is now 30.0"
+```
+
+**Identity Operators**
+
+```
+if tenEighty === alsoTenEighty {
+    print("tenEighty and alsoTenEighty refer to the same VideoMode instance.")
+}
+// Prints "tenEighty and alsoTenEighty refer to the same VideoMode instance."
+```
