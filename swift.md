@@ -2110,3 +2110,167 @@ print(rightChannel.currentLevel)
 print(AudioChannel.maxInputLevelForAllChannels)
 // Prints "10"
 ```
+
+####Methods
+
+#####Instance Methods
+
+- support functionality of instances by providing ways to access and modify or provide functionality
+
+```
+class Counter {
+    var count = 0
+    func increment() {
+        count += 1
+    }
+    func increment(by amount: Int) {
+        count += amount
+    }
+    func reset() {
+        count = 0
+    }
+}
+
+//increment() increments the counter by 1.
+//increment(by: Int) increments the counter by a specified integer amount.
+//reset() resets the counter to zero.
+```
+
+Call instance methods with dot syntax
+
+```
+let counter = Counter()
+// the initial counter value is 0
+counter.increment()
+// the counter's value is now 1
+counter.increment(by: 5)
+// the counter's value is now 6
+counter.reset()
+// the counter's value is now 0
+```
+
+**The Self Property**
+
+- every instance of a type has an implicit property called self which is equal to the instance itself
+- use self property to refer to current instance within own instance methods
+
+Could rewrite above increment method as...
+
+```
+func increment() {
+    self.count += 1
+}
+```
+
+If you don't explicitl write self, Swift assumes it unless a parameter name is the same as a property of that instance...
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+    func isToTheRightOf(x: Double) -> Bool {
+        return self.x > x
+    }
+}
+let somePoint = Point(x: 4.0, y: 5.0)
+if somePoint.isToTheRightOf(x: 1.0) {
+    print("This point is to the right of the line where x == 1.0")
+}
+// Prints "This point is to the right of the line where x == 1.0"
+```
+
+**Modifying Value Types from Within Instance Methods**
+
+- structures and enumerations are value types
+- by default, properties of a value type can't be modified from its instance methods
+
+Can mutate behavior, and any changes are written back to the original structure when method ends.
+
+```
+struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveBy(x deltaX: Double, y deltaY: Double) {
+        x += deltaX
+        y += deltaY
+    }
+}
+var somePoint = Point(x: 1.0, y: 1.0)
+somePoint.moveBy(x: 2.0, y: 3.0)
+print("The point is now at (\(somePoint.x), \(somePoint.y))")
+// Prints "The point is now at (3.0, 4.0)"
+```
+
+Calling it on a constant will report an error
+
+```
+let fixedPoint = Point(x: 3.0, y: 3.0)
+fixedPoint.moveBy(x: 2.0, y: 3.0)
+// this will report an error
+```
+
+**Assigning to self Within a Mutating Method**
+
+#####Type Methods
+
+- A method called on the type itself, indicated by `static` keyword before the method's `func` keyword
+- called with dot syntax on the type, not the isntance of the type
+
+```
+class SomeClass {
+    class func someTypeMethod() {
+        // type method implementation goes here
+    }
+}
+SomeClass.someTypeMethod()
+```
+
+Example
+
+```
+struct LevelTracker {
+    static var highestUnlockedLevel = 1
+    var currentLevel = 1
+
+    static func unlock(_ level: Int) {
+        if level > highestUnlockedLevel { highestUnlockedLevel = level }
+    }
+
+    static func isUnlocked(_ level: Int) -> Bool {
+        return level <= highestUnlockedLevel
+    }
+
+    @discardableResult
+    mutating func advance(to level: Int) -> Bool {
+        if LevelTracker.isUnlocked(level) {
+            currentLevel = level
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+class Player {
+    var tracker = LevelTracker()
+    let playerName: String
+    func complete(level: Int) {
+        LevelTracker.unlock(level + 1)
+        tracker.advance(to: level + 1)
+    }
+    init(name: String) {
+        playerName = name
+    }
+}
+
+var player = Player(name: "Argyrios")
+player.complete(level: 1)
+print("highest unlocked level is now \(LevelTracker.highestUnlockedLevel)")
+// Prints "highest unlocked level is now 2"
+
+player = Player(name: "Beto")
+if player.tracker.advance(to: 6) {
+    print("player is now on level 6")
+} else {
+    print("level 6 has not yet been unlocked")
+}
+// Prints "level 6 has not yet been unlocked"
+``` 
