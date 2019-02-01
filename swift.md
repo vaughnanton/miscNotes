@@ -2278,3 +2278,326 @@ if player.tracker.advance(to: 6) {
 ####Subscripts
 
 ####Inheritance
+
+A class can inherit methods, properties, and other characteristics from another class
+- class that inherits is subclass, subclass inherits from superclass
+- classes can call methods, properties, and subscripts from their superclass and can provide overriding versions of them
+- classes can add property observers to inherited properties to be notified when the value of a property changes
+
+#####Defining a Base Class
+
+```
+class Vehicle {
+    var currentSpeed = 0.0
+    var description: String {
+        return "traveling at \(currentSpeed) miles per hour"
+    }
+    func makeNoise() {
+        // do nothing - an arbitrary vehicle doesn't necessarily make a noise
+    }
+}
+
+// create new instance with initializer syntax
+let someVehicle = Vehicle()
+
+//can access description property
+print("Vehicle: \(someVehicle.description)")
+// Vehicle: traveling at 0.0 miles per hour
+```
+
+#####Subclassing
+
+To indicate that a subclass has superclass, write subclass name before superclass name separated by colon
+
+```
+class SomeSubclass: SomeSuperclass {
+    // subclass definition goes here
+}
+
+// Example
+class Bicycle: Vehicle {
+    var hasBasket = false
+}
+
+let bicycle = Bicycle()
+bicycle.currentSpeed = 15.0
+print("Bicycle: \(bicycle.description)")
+// Bicycle: traveling at 15.0 miles per hour
+```
+
+#####Overriding
+
+A subclass can provide its own implementation of an instance/type method, instance/type property, or subscript it would otherwise inherit from superclass
+
+- to override a characteristic, you prefix your overriding definition with the `override` keyword
+
+**Accessing Superclass Methods, Properties, and Subscripts**
+
+Access the superclass version of a method, property, or subscript by using the super prefix
+
+  - An overridden method named someMethod() can call the superclass version of someMethod() by calling super.someMethod() within the overriding method implementation
+  - An overridden property called someProperty can access the superclass version of someProperty as super.someProperty within the overriding getter or setter implementation
+  - An overridden subscript for someIndex can access the superclass version of the same subscript as super[someIndex] from within the overriding subscript implementation
+
+**Overriding Methods**
+
+You can override an inherited instance or type method to provide a tailored or alternative implementation of the method within your subclass
+
+```
+// define new subclass of Vehicle called Train, which overrides the makeNoise() method that train inherits from Vehicle
+
+class Train: Vehicle {
+    override func makeNoise() {
+        print("Choo Choo")
+    }
+}
+
+let train = Train()
+train.makeNoise()
+// Prints "Choo Choo"
+```
+
+**Overriding Properties**
+
+Can override instance/type property to provide your own custom getter and setter for that property, or to add property observers to enable overriding property to observe when the underlying property value changes
+
+- must always state the name AND the type of the property you're overriding, to enable the compiler to check that your override matches a superclass property with the same name and type
+
+```
+class Car: Vehicle {
+    var gear = 1
+    override var description: String {
+        return super.description + " in gear \(gear)"
+    }
+}
+
+let car = Car()
+car.currentSpeed = 25.0
+car.gear = 3
+print("Car: \(car.description)")
+// Car: traveling at 25.0 miles per hour in gear 3
+```
+
+**Overriding Property Observers**
+
+Can use property overriding to add property observers to an inherited property - to know when value of inherited property changes
+
+```
+class AutomaticCar: Car {
+    override var currentSpeed: Double {
+        didSet {
+            gear = Int(currentSpeed / 10.0) + 1
+        }
+    }
+}
+
+let automatic = AutomaticCar()
+automatic.currentSpeed = 35.0
+print("AutomaticCar: \(automatic.description)")
+// AutomaticCar: traveling at 35.0 miles per hour in gear 4
+```
+
+**Preventing Overrides**
+
+Can prevent a method, property, or subscript being overriden by marking it as final, achieved by writing `final` modifier before the method/prop/subscript's introducer keyword
+  - can also mark an entire class as final by writing the `final` modifier before the `class` keyword in the class definition ex. `final class Vehicle`
+
+####Initialization
+
+Process of preparing instance of a class, structure or enumeration for use
+  - Swift initializers don't return a value
+
+#####Setting Initial Values for Stored Properties
+
+Classes and structures must set all stored properties to an appropriate value by the time an instance of that class or structure is created
+
+**Initializers**
+
+Called to create a new instance of a particular type...
+
+```
+init() {
+    // perform some initialization here
+}
+
+// example
+
+struct Fahrenheit {
+    var temperature: Double
+    init() {
+        temperature = 32.0
+    }
+}
+var f = Fahrenheit()
+print("The default temperature is \(f.temperature)° Fahrenheit")
+// Prints "The default temperature is 32.0° Fahrenheit"
+```
+
+**Default Property Values**
+
+Alternatively, you can specify a default property value as part of the property's declaration...
+
+```
+struct Fahrenheit {
+    var temperature = 32.0
+}
+```
+
+#####Customizing Initialization
+
+Can customize initialization process with input parameters and optional property types, or by assigning constant properties during initialization...
+
+**Initialization Parameters**
+
+```
+// two custom initializers fromFahrenheit/fromKelvin
+
+struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+}
+
+let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+// boilingPointOfWater.temperatureInCelsius is 100.0
+let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+// freezingPointOfWater.temperatureInCelsius is 0.0
+```
+
+**Parameter Names and Argument Labels**
+
+Parameters can have a name for use within the initializer's body and an argument label for use when calling the initializer
+
+Swift provides an automatic label for every parameter in an initializer if you don't provide one
+
+```
+struct Color {
+    let red, green, blue: Double
+    init(red: Double, green: Double, blue: Double) {
+        self.red   = red
+        self.green = green
+        self.blue  = blue
+    }
+    init(white: Double) {
+        red   = white
+        green = white
+        blue  = white
+    }
+}
+
+// can use both initializers to create a new color instance...
+
+let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
+let halfGray = Color(white: 0.5)
+
+// not possible to call them without the argument labels...
+
+let veryGreen = Color(0.0, 1.0, 0.0)
+// this reports a compile-time error - argument labels are required
+```
+
+**Initializer Parameters Without Argument Labels**
+
+If you don't want to use an arg label for an initializer parameters, write an underscore `_` instead of an explicit argument label for that parameter to override default behavior
+
+```
+struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+    init(_ celsius: Double) {
+        temperatureInCelsius = celsius
+    }
+}
+let bodyTemperature = Celsius(37.0)
+// bodyTemperature.temperatureInCelsius is 37.0
+```
+
+**Optional Property Types**
+
+If custom type is allowed to/has 'no value' - declare the property with an optional type, which is automatically initialized with a value of nil indicating the property is intended to not have a value yet
+
+```
+class SurveyQuestion {
+    var text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        print(text)
+    }
+}
+let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
+cheeseQuestion.ask()
+// Prints "Do you like cheese?"
+cheeseQuestion.response = "Yes, I do like cheese."
+```
+
+**Assigning Constant Properties During Initialization**
+
+Can assign a value to a constant property at any point during initialization, as long as it is set to a definite value by time initialization finishes
+  - once a constant property is assigned a value, it can't be further modified
+
+```
+class SurveyQuestion {
+    let text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        print(text)
+    }
+}
+let beetsQuestion = SurveyQuestion(text: "How about beets?")
+beetsQuestion.ask()
+// Prints "How about beets?"
+beetsQuestion.response = "I also like beets. (But not with cheese.)"
+```
+
+#####Default Initializers
+
+Swift provides a default initializer for any structure or class that provides default values for all of its properties and does not provide at least one initializer itself
+  - it simply creates a new instance with all properties set to default values
+
+  ```
+  class ShoppingListItem {
+    var name: String?
+    var quantity = 1
+    var purchased = false
+}
+var item = ShoppingListItem()
+```
+
+**Memberwise Initializers for Structure Types**
+
+Structure types automatically receive a memberwise initializer if they don't define any of their own custom initializers
+  - unlike default initializers, the structure receives memberwise initializer even if it has stored properties that do not have default values 
+
+```
+struct Size {
+    var width = 0.0, height = 0.0
+}
+let twoByTwo = Size(width: 2.0, height: 2.0)
+
+// automatically receives init(width:height:) memberwise initializer, which you can use to initialize a new Size instance
+```
+
+#####Initializer Delegation for Value Types
+
+#####Class Inheritance and Initialization
+
+#####Failable Initializers
+
+#####Required Initializers
+
+#####Setting a Default Property Value with a Closure or Function
