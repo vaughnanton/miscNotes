@@ -315,3 +315,56 @@ The roses fearfully on thorns did stand,
 I have seen roses damask'd, red and white,
 But no such roses see I in her cheeks;
 ```
+
+####Chapter 4 Directories
+
+List the sub directories with
+
+```
+$ ls /usr/local/bin
+```
+
+**Making Directories**
+
+Make the directory...
+
+```
+$ mkdir text_files
+```
+
+Move all text files using *
+
+```
+$ mv *.txt text_files/
+```
+
+then can confirm it worked with
+
+```
+$ ls text_files/
+```
+
+**Modifying and Navigating Directories**
+
+change directories using `cd`
+
+print the working directory with `pwd`
+
+
+`cd ..` will go back a directory
+
+`cd` will go to user directory
+
+`cd ~` will change to previous directory
+
+`cp` `rm`
+
+`rm` directory requires directory to be empty, can force with `rm -rf`
+
+can grep files in directories and subdirectories ex.
+
+```
+$ grep -ri rose text_files
+```
+
+will return all files within text_files sub/directories with the string case insensitive string of 'rose'
