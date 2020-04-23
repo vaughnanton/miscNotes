@@ -1,7 +1,7 @@
 ## Stanford 193P
 ### Intro To iOS Programming : Lecture Notes
 
-More in depth iOS readings/notes can be found here [link]
+More in depth iOS notes can be found in the file 'swift.md'
 
 #### Lecture 1 01/03/2019
 
@@ -21,7 +21,7 @@ More in depth iOS readings/notes can be found here [link]
 
 **MVC**
 - divides objects in program into 3 camps
-- MVC is about managing communication between the 3 camps 
+- MVC is about managing communication between the 3 camps
 
   1. Model
     - UI independent
