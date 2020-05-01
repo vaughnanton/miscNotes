@@ -1,4 +1,4 @@
-Various Notes on the Swift Programming Language
+Various Notes on the Swift Programming Language from Documentation
 
 ## The Swift Programming Language Documentation
 
@@ -2581,7 +2581,7 @@ var item = ShoppingListItem()
 **Memberwise Initializers for Structure Types**
 
 Structure types automatically receive a memberwise initializer if they don't define any of their own custom initializers
-  - unlike default initializers, the structure receives memberwise initializer even if it has stored properties that do not have default values 
+  - unlike default initializers, the structure receives memberwise initializer even if it has stored properties that do not have default values
 
 ```
 struct Size {
