@@ -1,6 +1,6 @@
 * [Command Line](https://github.com/vaughnanton/notes/blob/master/command_line.md)
 
-* [Console Log]((https://github.com/vaughnanton/notes/blob/master/command_line.md)
+* [Console Log](https://github.com/vaughnanton/notes/blob/master/command_line.md)
 
 * [History of JS](https://github.com/vaughnanton/notes/blob/master/history_of_js.md)
 
