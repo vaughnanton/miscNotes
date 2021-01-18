@@ -8,7 +8,9 @@
 
 * [JSON/AJAX](https://github.com/vaughnanton/notes/blob/master/json_ajax.md)
 
-* [React](https://github.com/vaughnanton/notes/blob/master/reactQNA.md)
+* [React QnA](https://github.com/vaughnanton/notes/blob/master/reactQNA.md)
+
+* [React](https://github.com/vaughnanton/notes/blob/master/react.md)
 
 * [Node](https://github.com/vaughnanton/notes/blob/master/node.md)
 
