@@ -3,6 +3,33 @@
 - a function or a class
 - produces HTML via JSX and handles user events
 
+**Class Based Components**
+
+- must be a javascript class, extend (subclass) React.Component, and define a render method that returns some JSX
+
+**Functional Components**
+
+```
+// Functional vs Class Components
+
+const App = () => {
+    return <div>Latitude: </div>;
+};
+
+class App extends React.Component {
+    render() {
+        return <div>Latitude: </div>;
+    }
+}
+```
+
+**Rules of State**
+
+- state is a JS object that contains data relevant to a component
+- updating 'state' on a component causes the component to (almost) instantly rerender
+- state must be initialized when a component is created
+- state can only be updated using the function 'setState'
+
 **JSX**
 
 - HTML like JS syntax that keeps React code simple
