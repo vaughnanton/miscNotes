@@ -6,6 +6,12 @@
 **Class Based Components**
 
 - must be a javascript class, extend (subclass) React.Component, and define a render method that returns some JSX
+- lifecycle
+  1. constructor (good place to do one-time setup)
+  2. render (return JSX)
+  3. componentDidMount (data loading)
+  4. componentDidUpdate (good place to do more data loading when state/props change)
+  5. componentWillUnmount (good place to do cleanup especially for non-React stuff)
 
 **Functional Components**
 
