@@ -69,3 +69,13 @@ class App extends React.Component {
 
 - system for passing data from a parent component to a child component
 - goal is to customize or configure a child component
+
+**Data**
+
+- axios, 3rd party package - most commonly worked with
+- fetch, function built into modern browsers 
+
+**React Refs**
+
+- give access to a single DOM element that is rendered by a component (in place of document.querySelector)
+- we create refs in the constructor, assign them to instance variables, then pass to particular JSX element as props
