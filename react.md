@@ -73,9 +73,17 @@ class App extends React.Component {
 **Data**
 
 - axios, 3rd party package - most commonly worked with
-- fetch, function built into modern browsers 
+- fetch, function built into modern browsers
 
 **React Refs**
 
 - give access to a single DOM element that is rendered by a component (in place of document.querySelector)
 - we create refs in the constructor, assign them to instance variables, then pass to particular JSX element as props
+
+**Hooks System**
+
+- hooks are a way to write reusable code, instead of more classic techniques like inheritance
+
+- useState, function that lets you use state in a functional component
+- useEffect, function that lets you use something like lifecycle methods in a functional component
+- useRef, function that lets you create a ref in a function component
