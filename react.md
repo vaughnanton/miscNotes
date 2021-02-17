@@ -102,3 +102,41 @@ this.state.activeIndex; vs activeIndex;
 // Updates
 this.setState({activeIndex: 10}); vs setActiveIndex(10);
 ```
+
+**useEffect**
+
+- allows function components to use something _like_ lifecycle methods
+- we configure the hook to run some code automatically in one of three scenarios
+  1. when the component is rendered for the first time only ([])
+  2. when the component is rendered for the first time and when it rerenders (no array)
+  3. when the component is rendered for the first time and when it rerenders and some piece of data has changed ([data])
+
+- When wanting to use async await with useEffect can do it in two ways...
+
+```
+useEffect(() => {
+  (async () => {
+    await axios.get('gwhoietw');
+  })();
+}, [term];
+
+//OR, basically the above invokes without having to be called as below (search())
+
+useEffect(() => {
+  const search = async () => {
+      await axios.get('gwhoietw');
+  };
+  search();
+}, [term]);
+
+//OR with normal promises
+
+useEffect(() => {
+  axios.get('gwhoietw')
+    .then((response) => {
+      console.log(response.data)
+    });
+}, [term])
+```
+
+- useEffect has a cleanup return functionality that can get invoked before it calls the overall function (used in the setTimeout method we used in widgets app)
