@@ -140,3 +140,26 @@ useEffect(() => {
 ```
 
 - useEffect has a cleanup return functionality that can get invoked before it calls the overall function (used in the setTimeout method we used in widgets app)
+
+**useRef**
+
+- reference to top level element (see widgets app dropdown)
+- useRef is like a "box" that can hold a mutable value in its `.current` property
+
+```
+// Example to access a child imperatively
+
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    // `current` points to the mounted text input element
+    inputEl.current.focus();
+  };
+  return (
+    <>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus the input</button>
+    </>
+  );
+}
+```
