@@ -137,6 +137,21 @@ useEffect(() => {
       console.log(response.data)
     });
 }, [term])
+
+//complete example
+
+const App = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+      const fetchUsers = async () => {
+        const { data } = await axios.get(URL);
+        setUsers(data);
+      };
+
+      fetchUsers();
+  }, []);
+}
 ```
 
 - useEffect has a cleanup return functionality that can get invoked before it calls the overall function (used in the setTimeout method we used in widgets app)
