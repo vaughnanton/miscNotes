@@ -178,3 +178,141 @@ function TextInputWithFocusButton() {
   );
 }
 ```
+
+**Custom Hooks**
+
+- best way to create reusable code (besides components), usually when we want to make calls to useState or useEffect more reusable
+- created by extracting hook-related code out of a function component
+- custom hooks always contain at least one primitive hook (useState/useEffect)
+- each custom hook should have one single purpose
+- any time you have data fetching code, that is a great thing to make into a custom hook
+
+General Steps
+1. identify each line of code related to some single purpose
+2. identify the inputs to that code
+3. identify the outputs to that code
+4. extract all the code into a separate function, receiving the inputs as arguments and returning the outputs
+
+ex. If you give me a `default search term` - I will give you `a way to search for videos` and `a list of videos`
+
+
+**Deploying a React App**
+
+-Vercel
+  - can deploy basic react apps with no server side logic
+  - vercel within directory CLI to deploy app
+  - vercel --prod to push new code to deployment
+
+-Netlify
+  - deploy github repo via netlify site
+  - netlify will automatically redeploy once github repo changes
+
+**Redux**
+  - a state management library, instead of maintaining state within components we extract to redux library
+  - makes creating complex application easier
+  - cannot get direct access to state property to modify data, have to use dispatch/action/reducer
+  - application complexity stays relatively stable/low even as application grows, we want a very small set number of ways of modifying data
+
+  - Redux Cycle with insurance analogy
+
+    1. Action Creator
+      - person dropping off the form (whether claim or policy)
+      - action creator is a function that returns a plain javascript option
+      - to change the state of an app we call an action creator which produces an action
+      ```
+      const createPolicy = (name, amount) => {
+        return {
+          type: 'CREATE_POLICY',
+          payload: {
+            name: name,
+            amount: amount
+          }
+        };
+      };
+
+      const deletePolicy = (name) => {
+        return {
+          type: 'DELETE_POLICY',
+          payload: {
+            name: name
+          }
+        };
+      };
+
+      const createClaim = (name, amountOfMoneyToCollect) => {
+        return {
+          type: 'CREATE_CLAIM',
+          payload: {
+            name: name,
+            amountOfMoneyToCollect: amountOfMoneyToCollect
+          }
+        };
+      };
+      ```
+
+    2. Action
+      - the form
+      - has a type property, describes some change that we might want to make in our data
+      - has payload property, describes some context around the change we want to make
+
+    3. dispatch
+      - the form receiver, takes in the form and makes copies to pass to different insurance departments
+      - takes in action and passes copies to each of the reducers of app
+
+    4. Reducers
+      - each department in the company has diff sets of data, like number of policies, claims, accounting
+      - a function responsible for taking in an action and some existing data, process and change the data, and return it to centralize in some location
+      - returns a new state object
+      ```
+      // if oldListOfClaims is empty like when being called for first time, set it to empty array
+      const claimsHistory = (oldListOfClaims = [], action) => {
+        if (action.type === 'CREATE_CLAIM') {
+          // we care about this action(form)
+          return [...oldListOfClaims, action.payload]
+        }
+          // we dont care about this action (form)
+          return oldListOfClaims;
+      };
+
+      const accounting = (bagOfMoney = 100, action) => {
+        if (action.type === 'CREATE_CLAIM') {
+          return bagOfMoney - action.payload.amountOfMoneyToCollect;
+        } else if (action.type === 'CREATE_POLICY') {
+          return bagOfMoney + action.payload.amountOfMoneyToCollect;
+        }
+        return bagOfMoney;
+      };
+
+      const policies = (listOfPolicies = [], action) => {
+        if (action.type === 'CREATE_POLICY') {
+          return [...listOfPolicies, action.payload.name];
+        } else if (action.type === 'DELETE_POLICY') {
+          return listOfPolicies.filter(name => name !== action.payload.name);
+        }
+
+        return listOfPolicies;
+      }
+      ```
+
+    5. State
+      - the centralized compiled department data that insurance management can look into
+      - object that is a central repository of all information that has been created by reducers, all of the data of the application
+
+  - A redux store is an assembly of the different reducers and action creators
+  ```
+  const { createStore, combineReducers } = Redux;
+
+  const ourDepartments = combineReducers({
+      accounting: accounting,
+      claimsHistory: claimsHistory,
+      policies: policies
+  });
+
+  const store = createStore(ourDepartments);
+
+  // forward action to each of the reducers to process the action (form)
+  store.dispatch(createPolicy('Bob', 40));
+
+  // this is the main repository of the data of the app
+  store.getState();
+  ```
