@@ -217,7 +217,7 @@ ex. If you give me a `default search term` - I will give you `a way to search fo
 
     1. Action Creator
       - person dropping off the form (whether claim or policy)
-      - action creator is a function that returns a plain javascript option
+      - action creator is a function that returns a plain javascript function
       - to change the state of an app we call an action creator which produces an action
       ```
       const createPolicy = (name, amount) => {
