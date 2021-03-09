@@ -317,4 +317,27 @@ ex. If you give me a `default search term` - I will give you `a way to search fo
   store.getState();
   ```
 
-  async actions with redux thunk
+  - can trick redux to think we have a valid reducer (when working a new project) by returning a fixed value like so:
+
+  ```
+  export default combineReducers({
+    replaceMe: () => 'hi there';
+    });
+  ```
+
+  **Common Dependencies I've Used**
+  redux, redux library
+  react-redux, integration layer between react and redux
+  axios, help us make network requests
+  redux-thunk, middleware that helps make network requests from the redux side of app
+
+  **General Data Loading with Redux**
+
+  1. component gets rendered onto the screen
+  2. componentDidMount lifecycle method gets called
+  3. we call action creator from 'componentDidMount'
+  4. action creator runs code to make an API request
+  5. API responds w data
+  6. action creator returns an 'action' with the fetched data on the 'payload' property
+  7. some reducer sees the action, returns the data off the 'payload'
+  8. because we generated some new state object, redux/react-redux will cause app to rerender 
