@@ -316,3 +316,5 @@ ex. If you give me a `default search term` - I will give you `a way to search fo
   // this is the main repository of the data of the app
   store.getState();
   ```
+
+  async actions with redux thunk
