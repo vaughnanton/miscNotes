@@ -333,11 +333,33 @@ ex. If you give me a `default search term` - I will give you `a way to search fo
 
   **General Data Loading with Redux**
 
+  components are generally responsible for fetching data by calling an action creator...
+
   1. component gets rendered onto the screen
   2. componentDidMount lifecycle method gets called
   3. we call action creator from 'componentDidMount'
+
+  action creators are responsible for making api requests (redux-thunk)
+
   4. action creator runs code to make an API request
   5. API responds w data
   6. action creator returns an 'action' with the fetched data on the 'payload' property
+
+  we get fetched data into component by generating new state in redux store, then getting that into our component through mapStateToProps
+
   7. some reducer sees the action, returns the data off the 'payload'
-  8. because we generated some new state object, redux/react-redux will cause app to rerender 
+  8. because we generated some new state object, redux/react-redux will cause app to re-render
+
+  **What Redux-Thunk Does**
+
+  Normal rules of action creators
+
+  1. must return action object
+  2. must have type property
+  3. can optionally have a payload
+
+  Rules with redux-thunk
+
+  1. action creators can return action objects OR action creators can return functions 
+  2. must have type property
+  3. can optionally have a payload
