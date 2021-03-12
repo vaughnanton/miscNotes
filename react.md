@@ -208,158 +208,175 @@ ex. If you give me a `default search term` - I will give you `a way to search fo
   - netlify will automatically redeploy once github repo changes
 
 **Redux**
-  - a state management library, instead of maintaining state within components we extract to redux library
-  - makes creating complex application easier
-  - cannot get direct access to state property to modify data, have to use dispatch/action/reducer
-  - application complexity stays relatively stable/low even as application grows, we want a very small set number of ways of modifying data
+- a state management library, instead of maintaining state within components we extract to redux library
+- makes creating complex application easier
+- cannot get direct access to state property to modify data, have to use dispatch/action/reducer
+- application complexity stays relatively stable/low even as application grows, we want a very small set number of ways of modifying data
 
-  - Redux Cycle with insurance analogy
+- Redux Cycle with insurance analogy
 
-    1. Action Creator
-      - person dropping off the form (whether claim or policy)
-      - action creator is a function that returns a plain javascript function
-      - to change the state of an app we call an action creator which produces an action
-      ```
-      const createPolicy = (name, amount) => {
-        return {
-          type: 'CREATE_POLICY',
-          payload: {
-            name: name,
-            amount: amount
-          }
-        };
-      };
-
-      const deletePolicy = (name) => {
-        return {
-          type: 'DELETE_POLICY',
-          payload: {
-            name: name
-          }
-        };
-      };
-
-      const createClaim = (name, amountOfMoneyToCollect) => {
-        return {
-          type: 'CREATE_CLAIM',
-          payload: {
-            name: name,
-            amountOfMoneyToCollect: amountOfMoneyToCollect
-          }
-        };
-      };
-      ```
-
-    2. Action
-      - the form
-      - has a type property, describes some change that we might want to make in our data
-      - has payload property, describes some context around the change we want to make
-
-    3. dispatch
-      - the form receiver, takes in the form and makes copies to pass to different insurance departments
-      - takes in action and passes copies to each of the reducers of app
-
-    4. Reducers
-      - each department in the company has diff sets of data, like number of policies, claims, accounting
-      - a function responsible for taking in an action and some existing data, process and change the data, and return it to centralize in some location
-      - returns a new state object
-      ```
-      // if oldListOfClaims is empty like when being called for first time, set it to empty array
-      const claimsHistory = (oldListOfClaims = [], action) => {
-        if (action.type === 'CREATE_CLAIM') {
-          // we care about this action(form)
-          return [...oldListOfClaims, action.payload]
+  1. Action Creator
+    - person dropping off the form (whether claim or policy)
+    - action creator is a function that returns a plain javascript function
+    - to change the state of an app we call an action creator which produces an action
+    ```
+    const createPolicy = (name, amount) => {
+      return {
+        type: 'CREATE_POLICY',
+        payload: {
+          name: name,
+          amount: amount
         }
-          // we dont care about this action (form)
-          return oldListOfClaims;
       };
+    };
 
-      const accounting = (bagOfMoney = 100, action) => {
-        if (action.type === 'CREATE_CLAIM') {
-          return bagOfMoney - action.payload.amountOfMoneyToCollect;
-        } else if (action.type === 'CREATE_POLICY') {
-          return bagOfMoney + action.payload.amountOfMoneyToCollect;
+    const deletePolicy = (name) => {
+      return {
+        type: 'DELETE_POLICY',
+        payload: {
+          name: name
         }
-        return bagOfMoney;
       };
+    };
 
-      const policies = (listOfPolicies = [], action) => {
-        if (action.type === 'CREATE_POLICY') {
-          return [...listOfPolicies, action.payload.name];
-        } else if (action.type === 'DELETE_POLICY') {
-          return listOfPolicies.filter(name => name !== action.payload.name);
+    const createClaim = (name, amountOfMoneyToCollect) => {
+      return {
+        type: 'CREATE_CLAIM',
+        payload: {
+          name: name,
+          amountOfMoneyToCollect: amountOfMoneyToCollect
         }
+      };
+    };
+    ```
 
-        return listOfPolicies;
+  2. Action
+    - the form
+    - has a type property, describes some change that we might want to make in our data
+    - has payload property, describes some context around the change we want to make
+
+  3. dispatch
+    - the form receiver, takes in the form and makes copies to pass to different insurance departments
+    - takes in action and passes copies to each of the reducers of app
+
+  4. Reducers
+    - each department in the company has diff sets of data, like number of policies, claims, accounting
+    - a function responsible for taking in an action and some existing data, process and change the data, and return it to centralize in some location
+    - returns a new state object
+    ```
+    // if oldListOfClaims is empty like when being called for first time, set it to empty array
+    const claimsHistory = (oldListOfClaims = [], action) => {
+      if (action.type === 'CREATE_CLAIM') {
+        // we care about this action(form)
+        return [...oldListOfClaims, action.payload]
       }
-      ```
+        // we dont care about this action (form)
+        return oldListOfClaims;
+    };
 
-    5. State
-      - the centralized compiled department data that insurance management can look into
-      - object that is a central repository of all information that has been created by reducers, all of the data of the application
+    const accounting = (bagOfMoney = 100, action) => {
+      if (action.type === 'CREATE_CLAIM') {
+        return bagOfMoney - action.payload.amountOfMoneyToCollect;
+      } else if (action.type === 'CREATE_POLICY') {
+        return bagOfMoney + action.payload.amountOfMoneyToCollect;
+      }
+      return bagOfMoney;
+    };
 
-  - A redux store is an assembly of the different reducers and action creators
-  ```
-  const { createStore, combineReducers } = Redux;
+    const policies = (listOfPolicies = [], action) => {
+      if (action.type === 'CREATE_POLICY') {
+        return [...listOfPolicies, action.payload.name];
+      } else if (action.type === 'DELETE_POLICY') {
+        return listOfPolicies.filter(name => name !== action.payload.name);
+      }
 
-  const ourDepartments = combineReducers({
-      accounting: accounting,
-      claimsHistory: claimsHistory,
-      policies: policies
+      return listOfPolicies;
+    }
+    ```
+
+  5. State
+    - the centralized compiled department data that insurance management can look into
+    - object that is a central repository of all information that has been created by reducers, all of the data of the application
+
+- A redux store is an assembly of the different reducers and action creators
+```
+const { createStore, combineReducers } = Redux;
+
+const ourDepartments = combineReducers({
+    accounting: accounting,
+    claimsHistory: claimsHistory,
+    policies: policies
+});
+
+const store = createStore(ourDepartments);
+
+// forward action to each of the reducers to process the action (form)
+store.dispatch(createPolicy('Bob', 40));
+
+// this is the main repository of the data of the app
+store.getState();
+```
+
+- can trick redux to think we have a valid reducer (when working a new project) by returning a fixed value like so:
+
+```
+export default combineReducers({
+  replaceMe: () => 'hi there';
   });
+```
 
-  const store = createStore(ourDepartments);
+**Common Dependencies I've Used**
+redux, redux library
+react-redux, integration layer between react and redux
+axios, help us make network requests
+redux-thunk, middleware that helps make network requests from the redux side of app
 
-  // forward action to each of the reducers to process the action (form)
-  store.dispatch(createPolicy('Bob', 40));
+**General Data Loading with Redux**
 
-  // this is the main repository of the data of the app
-  store.getState();
-  ```
+components are generally responsible for fetching data by calling an action creator...
 
-  - can trick redux to think we have a valid reducer (when working a new project) by returning a fixed value like so:
+1. component gets rendered onto the screen
+2. componentDidMount lifecycle method gets called
+3. we call action creator from 'componentDidMount'
 
-  ```
-  export default combineReducers({
-    replaceMe: () => 'hi there';
-    });
-  ```
+action creators are responsible for making api requests (redux-thunk)
 
-  **Common Dependencies I've Used**
-  redux, redux library
-  react-redux, integration layer between react and redux
-  axios, help us make network requests
-  redux-thunk, middleware that helps make network requests from the redux side of app
+4. action creator runs code to make an API request
+5. API responds w data
+6. action creator returns an 'action' with the fetched data on the 'payload' property
 
-  **General Data Loading with Redux**
+we get fetched data into component by generating new state in redux store, then getting that into our component through mapStateToProps
 
-  components are generally responsible for fetching data by calling an action creator...
+7. some reducer sees the action, returns the data off the 'payload'
+8. because we generated some new state object, redux/react-redux will cause app to re-render
 
-  1. component gets rendered onto the screen
-  2. componentDidMount lifecycle method gets called
-  3. we call action creator from 'componentDidMount'
+**What Redux-Thunk Does**
 
-  action creators are responsible for making api requests (redux-thunk)
+Normal rules of action creators
 
-  4. action creator runs code to make an API request
-  5. API responds w data
-  6. action creator returns an 'action' with the fetched data on the 'payload' property
+1. must return action object
+2. must have type property
+3. can optionally have a payload
 
-  we get fetched data into component by generating new state in redux store, then getting that into our component through mapStateToProps
+Rules with redux-thunk
 
-  7. some reducer sees the action, returns the data off the 'payload'
-  8. because we generated some new state object, redux/react-redux will cause app to re-render
+1. action creators can return action objects OR action creators can return functions
+2. must have type property
+3. can optionally have a payload
 
-  **What Redux-Thunk Does**
+**Redux Store Design**
 
-  Normal rules of action creators
+Rules of Reducers
 
-  1. must return action object
-  2. must have type property
-  3. can optionally have a payload
+1. must return any value besides 'undefined'
+2. produces 'state', or data to be used inside of your app using only previous state and the action
+3. must not return reach 'out of itself' to decide what value to return (reducers are pure)
+4. must not mutate its input 'state' argument
 
-  Rules with redux-thunk
+```
+with arrays when you use === it is comparing to the last version in memory
 
-  1. action creators can return action objects OR action creators can return functions 
-  2. must have type property
-  3. can optionally have a payload
+ex. const numbers === [1,2]
+numbers === number -> true
+numbers === [1,2] -> false
+```
