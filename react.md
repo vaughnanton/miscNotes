@@ -371,7 +371,9 @@ Rules of Reducers
 1. must return any value besides 'undefined'
 2. produces 'state', or data to be used inside of your app using only previous state and the action
 3. must not return reach 'out of itself' to decide what value to return (reducers are pure)
-4. must not mutate its input 'state' argument
+4. must not mutate its input 'state' argument (you could but not ideal)
+  - misleading because you can mutate it but mutating it can cause trouble and it's easier to say don't mutate state argument then understand the corner case that isn't ideal
+  - reason is because if we accidentally return the same value that comes into the reducer and return state, redux won't notice because same object in memory so the app won't re-render
 
 ```
 with arrays when you use === it is comparing to the last version in memory
@@ -379,4 +381,45 @@ with arrays when you use === it is comparing to the last version in memory
 ex. const numbers === [1,2]
 numbers === number -> true
 numbers === [1,2] -> false
+```
+
+```
+// common syntax in reducers working with arrays and objects to not mutate state arguement
+
+// removing an element from an array
+// bad
+state.pop()
+// good
+state.filter(element => element !== 'hi')
+
+// adding an element to an array
+// bad
+state.push('hi')
+// good
+[...state, 'hi']
+
+// replacing an element in an array
+// bad
+state[0] = 'hi'
+// good
+state.map(el => el === 'hi' ? 'bye' : el)
+
+// updating a property in an object
+// bad
+state.name = 'Sam'
+// good
+{...state, name: 'Sam'}
+
+// adding a property to an object
+// bad
+state.age = 30
+// good
+{...state, age: 30}
+
+// removing a property from an object
+// bad
+delete state.name
+// good
+{...state, age: undefinded}
+_.omit(state, 'age') // using lodash
 ```
