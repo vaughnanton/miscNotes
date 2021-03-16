@@ -423,3 +423,7 @@ delete state.name
 {...state, age: undefinded}
 _.omit(state, 'age') // using lodash
 ```
+
+**LoDash**
+
+- memoize the action creator function allows to not make a million requests for same data
