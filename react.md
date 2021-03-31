@@ -427,3 +427,9 @@ _.omit(state, 'age') // using lodash
 **LoDash**
 
 - memoize the action creator function allows to not make a million requests for same data
+
+**React Router**
+
+- `react-router` is the core navigation library, don't need to include this manually
+- install using `react-router-dom` for navigation in dom-based apps
+- install using `react-router-native` for navigation in react-native apps
