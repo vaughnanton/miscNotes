@@ -433,3 +433,14 @@ _.omit(state, 'age') // using lodash
 - `react-router` is the core navigation library, don't need to include this manually
 - install using `react-router-dom` for navigation in dom-based apps
 - install using `react-router-native` for navigation in react-native apps
+
+```
+<BrowserRouter>
+  <div>
+    <Route path="/" exact component={PageOne} />
+    <Route path="/pagetwo" component={PageTwo} />
+  </div>
+</BrowserRouter>
+```
+
+- the `exact aka exact={true}` keyword makes sure it is the exact path otherwise `/pagetwo` will show both `'/' and '/pagetwo'`
