@@ -425,7 +425,7 @@ _.omit(state, 'age') // using lodash
 ```
 
 **LoDash**
-
+- library that has several built in functions (don't have to reinvent the wheel)
 - memoize the action creator function allows to not make a million requests for same data
 
 **React Router**
@@ -444,3 +444,4 @@ _.omit(state, 'age') // using lodash
 ```
 
 - the `exact aka exact={true}` keyword makes sure it is the exact path otherwise `/pagetwo` will show both `'/' and '/pagetwo'`
+- we don't use anchor tags because a new HTML document will come in and all JS data gets dumped
