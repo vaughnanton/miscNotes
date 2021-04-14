@@ -445,3 +445,7 @@ _.omit(state, 'age') // using lodash
 
 - the `exact aka exact={true}` keyword makes sure it is the exact path otherwise `/pagetwo` will show both `'/' and '/pagetwo'`
 - we don't use anchor tags because a new HTML document will come in and all JS data gets dumped
+
+**Google OAuth w/ Redux**
+
+- we want to have whether user is signed in or not in a central store (redux), becauase a lot of parts of app will need to access that info 
