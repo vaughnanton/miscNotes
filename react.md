@@ -449,3 +449,7 @@ _.omit(state, 'age') // using lodash
 **Google OAuth w/ Redux**
 
 - we want to have whether user is signed in or not in a central store (redux), becauase a lot of parts of app will need to access that info 
+
+**Redux Dev Tools**
+
+- https://extension.remotedev.io/ see advanced store
