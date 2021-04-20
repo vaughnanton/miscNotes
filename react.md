@@ -453,3 +453,4 @@ _.omit(state, 'age') // using lodash
 **Redux Dev Tools**
 
 - https://extension.remotedev.io/ see advanced store
+- adding ?debug_session=string will persist actions/state even after refreshing
