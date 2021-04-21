@@ -454,3 +454,23 @@ _.omit(state, 'age') // using lodash
 
 - https://extension.remotedev.io/ see advanced store
 - adding ?debug_session=string will persist actions/state even after refreshing
+
+
+**Redux Form**
+
+- takes care of all the form data in the redux store
+- documentation at redux-form.com
+- flow for handling inputs with Redux form: 
+1. on change (DOM)
+2. handler (component) 
+- redux form action creator
+3. redux form reducer (redux store)
+- redux form mapStateToProps
+4. props (component)
+5. value (DOM)
+
+- validate() function is called everytime user interacts with form or when it's rendered
+  - if the validations are good we return empty object
+  - if the validationes aren't good we return an object
+    - for each invalid field return key-value pair on the object with the name of the field and the error message
+    - redux form will rerender component
