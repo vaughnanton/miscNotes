@@ -474,3 +474,12 @@ _.omit(state, 'age') // using lodash
   - if the validationes aren't good we return an object
     - for each invalid field return key-value pair on the object with the name of the field and the error message
     - redux form will rerender component
+
+**Key Interpolation Syntax**
+
+const animalSounds = { cat: 'meow', dog: 'bark' };
+const animal = 'lion';
+const sound = 'roar';
+{ ...animalSounds, [animal]: sound }
+
+- keys and values we want to add in are already assigned to variables, so we set what `animal` references as new key and `sound` as value 
