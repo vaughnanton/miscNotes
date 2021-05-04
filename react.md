@@ -445,6 +445,7 @@ _.omit(state, 'age') // using lodash
 
 - the `exact aka exact={true}` keyword makes sure it is the exact path otherwise `/pagetwo` will show both `'/' and '/pagetwo'`
 - we don't use anchor tags because a new HTML document will come in and all JS data gets dumped
+- with react-router, each component needs to be designed to work in isolation ie fetch its own data
 
 **Google OAuth w/ Redux**
 
