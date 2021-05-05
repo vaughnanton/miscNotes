@@ -484,3 +484,10 @@ const sound = 'roar';
 { ...animalSounds, [animal]: sound }
 
 - keys and values we want to add in are already assigned to variables, so we set what `animal` references as new key and `sound` as value 
+
+**React Portals**
+
+- get around having to nest components etc in our div with `id=root`
+- portal allows us to render something somewhere else in the component hierarchy, good for modals 
+- instead of returning as normal we `return ReactDOM.createPortal(<div></div>, document.querySelector('#modal'))`
+- we usually make a sibling div to root div and attach modal to that
