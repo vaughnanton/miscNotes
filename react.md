@@ -491,3 +491,8 @@ const sound = 'roar';
 - portal allows us to render something somewhere else in the component hierarchy, good for modals 
 - instead of returning as normal we `return ReactDOM.createPortal(<div></div>, document.querySelector('#modal'))`
 - we usually make a sibling div to root div and attach modal to that
+
+**React Context**
+
+- context system is like the props system in that it gets data from a parent component to any nested child compnent
+- in the props system it gets data from a parent component to a direct child component
