@@ -494,5 +494,20 @@ const sound = 'roar';
 
 **React Context**
 
-- context system is like the props system in that it gets data from a parent component to any nested child compnent
+- context system is like the props system in that it gets data from a parent component to any nested child compnent (without passing it to components that don't need it)
 - in the props system it gets data from a parent component to a direct child component
+- to get info into the context object we set a `default value` or we create a `provider component` that gives info into the context object 
+- to get info out of the context object we can reference `this.context` or create a `consumer component`
+- in our translate app we want to communicate from our app to the userCreate component the value stored in app, we use a `provider` component
+- everytime a provider is used it creates a separate "pipe" of information
+
+In our app: 
+
+1. application loads up in the browser
+2. we create a context object with default value of 'english'
+3. app component gets rendered, creates a provider that wraps UserCreate
+4. provider updates the value of the context object to 'this.state.language'
+5. button and field reach into the context object to see the value from 'this.state.language'
+6. button and field render appropriate text to the screen
+
+- we'd want to use a `consumer` instead of `this.context` any time we want to get info out of multiple context objects into a single component
