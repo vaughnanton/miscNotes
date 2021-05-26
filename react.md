@@ -1,3 +1,5 @@
+***React Notes***
+
 **Component**
 
 - a function or a class
